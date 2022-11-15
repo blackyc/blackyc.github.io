@@ -1,0 +1,339 @@
+<!-- 博文的布局-Layout -->
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 引入head标签 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-sclable=0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="Cybersecurity" />
+<meta name="keywords" content="" />
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/media.css">
+<link rel="stylesheet" href="/assets/css/animate.min.css">
+<link rel="stylesheet" href="/assets/css/pygments/pygments_default.css">
+<link rel="stylesheet" href="/assets/css/github-markdown.css">
+<!-- SNS-icon -->
+<script src="//at.alicdn.com/t/font_856428_y9z6nq7zf5.js"></script>
+<!-- share.css -->
+<link rel="stylesheet" href="/assets/css/share.min.css">
+<!-- font -->
+<link rel="stylesheet" href="/assets/css/font.css">
+<!-- <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Pacifico|Ubuntu|Roboto+Mono|Source+Sans+Pro" rel="stylesheet"> -->
+
+<!-- Favicon -->
+<link href="/assets/profile.jpeg" rel="shortcut icon" />
+<link href="/assets/profile.jpeg" rel="apple-touch-icon-precomposed" />
+<!-- Android Lolipop Theme Color -->
+<!-- <meta name="theme-color" content="#1464FB"> -->
+<title>MooCakeCTX attack</title>
+<!-- 百度统计 -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- 谷歌分析 -->
+
+
+<!-- Android Lolipop Theme Color -->
+<meta name="theme-color" content=" rgb(53,209,242) ">
+</head>
+<body>
+
+<!-- 顶部锚点 -->
+<a id="htmlup" name="htmlup"></a>
+<!-- 引入博文顶部选项 -->
+
+<header id="post-header" style="background-color:rgb(53,209,242);">
+  <div class="top-center">
+      <div class="logo">
+          <a href="/" title="my awesome webtitle" style="color: white;">Wake up neo</a>
+      </div>
+      <nav class="top-nav">
+          <ul>
+              
+                <li><a href="/" style="color: white;">首页</a></li>
+              
+                <li><a href="/tags.html" style="color: white;">标签</a></li>
+              
+                <li><a href="/timeline.html" style="color: white;">时间线</a></li>
+              
+                <li><a href="/about.html" style="color: white;">关于博主</a></li>
+              
+                <li><a href="/friendLink.html" style="color: white;">友情链接</a></li>
+              
+          </ul>
+      </nav>
+      <div id="top-boot">
+        <a href="javascript:;" id="boot1" style="display:block;" onclick="document.getElementById('boot-area').style.display='block';document.getElementById('boot1').style.display='none';document.getElementById('boot2').style.display='block';"><img src="/assets/boot_white.png" alt=""></a>
+        <a href="javascript:;" id="boot2" style="display: none;" onclick="document.getElementById('boot-area').style.display='none';document.getElementById('boot1').style.display='block';document.getElementById('boot2').style.display='none';"><img src="/assets/boot_white.png" alt=""></a>
+      </div>
+  </div>
+
+</header>
+
+
+<!-- 引入移动下拉选项 -->
+<div id="boot-area">
+    <ul>
+        
+          <a href="/"><li>首页</li></a>
+        
+          <a href="/tags.html"><li>标签</li></a>
+        
+          <a href="/timeline.html"><li>时间线</li></a>
+        
+          <a href="/about.html"><li>关于博主</li></a>
+        
+          <a href="/friendLink.html"><li>友情链接</li></a>
+        
+    </ul>
+</div>
+
+<!-- 引入博文顶部样式 -->
+<!-- 版本一 垃圾 -->
+<!-- <div class="wow fadeIn top" data-wow-duration="3.5s" >
+    <span class="wow fadeInUp" data-wow-delay="0.2s">MooCakeCTX attack</span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span>
+</div> -->
+
+<!-- 版本二 可切换页面 -->
+
+<div class="post-top" style="background-color:rgb(53,209,242);">
+  <!-- 页面宽度大于800px -->
+  <div class="left-area">
+    
+      <a href="javascript:;" class="btn bounceInLeft animated" onmouseover="showLeft();this.style.color='rgb(53,209,242)';" onmouseout="goneLeft();this.style.color='rgba(0,0,0,.2)';"><</a>
+      <div id="left-tab" style="display:none;"><span class="left-san"></span><span class="left-main" style="color:rgb(53,209,242);"><sapn class="main">没有上一页咯</sapn></span></div>
+    
+  </div>
+  <div class="post-titlearea">
+    <span class="wow fadeInUp" data-wow-delay="0.2s">MooCakeCTX attack</span>
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span> -->
+  </div>
+  <div class="right-area">
+    
+      <a href="/2021/05/24/python-notes.html" class="btn bounceInRight self-animated" onmouseover="showRight();this.style.color='rgb(53,209,242)';" onmouseout="goneRight();this.style.color='rgba(0,0,0,.2)';">></a>
+      <div id="right-tab" style="display:none;"><span class="right-san"></span><span class="right-main" style="color:rgb(53,209,242);"><sapn class="main">python notes</sapn></span></div>
+    
+  </div>
+
+  <!-- 页面宽度小于800px -->
+  <div class="post-changearea">
+    
+      <a href="javascript:;" class="leftchange" style="border-right: 1px solid rgb(53,209,242);border-bottom: 2px solid rgb(53,209,242);"><span><br>没有上一篇咯</span></a>
+    
+    
+      <a href="/2021/05/24/python-notes.html" class="rightchange" style="border-left: 1px solid rgb(53,209,242);border-bottom: 2px solid rgb(53,209,242);"><span>下一篇<br><br>python notes</span></a>
+    
+  </div>
+</div>
+
+
+<div class="markdown-body fadeInUp animated">
+
+  
+    
+      <div class="postpage-subtitle" style="border-left: 8px solid rgb(53,209,242); border-right: 8px solid rgb(53,209,242)">
+        MooCakeCTX attack analyze by yako33!
+      </div>
+    
+  
+
+  <!-- 文章内容 -->
+  <p>[TOC]</p>
+
+<p>thanks by KRlyx &amp; Deft (beosin security team)</p>
+
+<p>MooCakeCTX合约遭到闪电贷攻击，首位攻击者获得约14万美元，第二位攻击者获利约47万美元，2次攻击手法一致，MooCakeTWT于MooCakeCTX数小时后被攻击。</p>
+
+<h4 id="事件地址信息">事件地址信息</h4>
+
+<p>攻击交易<br />
+https://bscscan.com/tx/0x03d363462519029cf9a544d44046cad0c7e64c5fb1f2adf5dd5438a9a0d2ec8e</p>
+
+<p>攻击者地址<br />
+0x35700c4a7bd65048f01d6675f09d15771c0facd5</p>
+
+<p>攻击合约<br />
+0x71Ac864f9388eBD8e55a3cdBC501D79C3810467C</p>
+
+<p>被攻击合约地址<br />
+0x489afbAED0Ea796712c9A6d366C16CA3876D8184</p>
+
+<h4 id="漏洞分析">漏洞分析</h4>
+<p>本次攻击主要利用了抵押奖励合约中，抵押和奖励没有时间等相关的限制，并且对于调用者的防范不够全面，导致攻击者可以利用闪电贷放大分红收益，获取MooCakeCTX</p>
+
+<h4 id="攻击流程">攻击流程</h4>
+<p>1.在攻击交易0x03d363462我们可以看到2022-11-06 09:30:38 PM +UTC时攻击者利用闪电贷发起攻击,攻击者先使用闪电贷借出BUSD并把自己的钱与借入的钱一起换成vBUSD后再兑换成CAKE币用做抵押的准备资金，因为在StrategySyrup中只能使用cake币作为抵押，所以这里全部换成了cake币。而同时准备CTK币，为了smartchef能够抵押调用成功进行的转账。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/1.png" alt="1" /></p>
+    <p></p>
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/2.png" alt="2" /></p>
+  </li>
+</ul>
+
+<p>2.而在具体的攻击流程函数调用中我们可以看到当，当攻击者调用deposit函数后立马使用call调用了harvest函数，而这里的调用地址是一个攻击合约并且在最后看到此合约已经自毁。我们可以看到在图中harvest函数代码中，对调用地址是否是EOA地址做了判断，但当发起调用在构造函数的情况下iscontract()可以被绕过从而实现了合约调用，这是此次攻击的核心之一。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/3.png" alt="3" /></p>
+    <p></p>
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/4.png" alt="4" /></p>
+  </li>
+</ul>
+
+<p>3.接着就是此次攻击的问题所在，BeefyVault合约中由于奖励计算根据所占的抵押份额计算，其中更新奖励又是按照账户调用harvest函数进行更新，那么在一次更新领取奖励的轮次中，只要所占份额越大，获利越多，所以攻击者用闪电贷放大了收益(而上一次在733天前)，并且绕过了iscontract使用合约调用，值得注意的是这里的depositAll和withdrawAll中与时间没有关系，所以攻击者可以在depoist后立马调用withdrawAll领取奖励。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/5.png" alt="5" /></p>
+    <p></p>
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/6.png" alt="6" /></p>
+  </li>
+</ul>
+
+<p>4.攻击者又执行了两次相同手法的攻击，并归还了闪电贷,获利424 BNB(约14万)离场。并且攻击者因为操作步骤出错WBNB没有转出。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/7.png" alt="7" /></p>
+  </li>
+</ul>
+
+  <!-- 引入share模块 -->
+  
+  <div class="social-share-wrapper">
+    <div class="social-share"></div>
+  </div>
+
+
+<!-- share.js -->
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+  socialShare('.social-share', {
+    sites: [
+      
+        'qq'
+        ,
+        
+      
+        'wechat'
+        ,
+        
+      
+        'weibo'
+        ,
+        
+      
+        'twitter'
+        ,
+        
+      
+        'facebook'
+        
+      
+    ],
+    wechatQrcodeTitle: "分享到微信朋友圈",
+    wechatQrcodeHelper: '期待在朋友圈见到这篇文章'
+  });
+</script>
+
+</div>
+
+<!-- 底部锚点 -->
+<a id="htmldown" name="htmldown"></a>
+<!-- 引入评论模块 -->
+
+
+
+    <section class="post-footer-item comment">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDI2OS8xMDgwNg=="></div>
+    </section>
+
+    <!-- 来必力City版安装代码 -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+
+           if (typeof LivereTower === 'function') { return; }
+
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- City版安装代码已完成 -->
+
+
+
+
+
+<!-- 引入goto模块 -->
+<div class="bounceInRight animated go">
+  <a title="顶部切换页面" class="gototop" href="#htmlup" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Top
+    </div>
+  </a>
+  <a title="底部有livere评论哦" class="gotobottom" href="#htmldown" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Foot
+    </div>
+  </a>
+</div>
+
+<!-- 引入页面底部模块 -->
+<footer id="bottom">
+  <br>
+  <span>Rookie Hacker ©
+  
+  
+    2018
+    -
+  
+  2022
+  <br>
+  Powered by <a href="https://www.jekyll.com.cn/">Jekyll</a> | <a href="https://github.com/xukimseven/HardCandy-Jekyll">HardCandy-Jekyll</a></span>
+</footer>
+
+
+<!-- 引用wow.js的动画效果 -->
+<script src="/assets/js/wow.js"></script>
+<script>
+    var wow = new WOW({
+        boxClass: 'wow',
+        animateClass: 'animated',
+        // offset: 600,
+        mobile: true,
+        live: true
+    });
+    wow.init();
+</script>
+<!-- 页面刷新回到顶部 -->
+<script>
+    window.onbeforeunload = function(){
+        //刷新后页面自动回到顶部
+        document.documentElement.scrollTop = 0;  //ie下
+        document.body.scrollTop = 0;  //非ie
+    }
+</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

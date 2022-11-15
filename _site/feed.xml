@@ -1,12 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-11-15T14:37:28+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Rookie Hacker</title><subtitle>Cybersecurity</subtitle><author><name>true</name></author><entry><title type="html">python notes</title><link href="http://localhost:4000/2021/05/24/python-notes.html" rel="alternate" type="text/html" title="python notes" /><published>2021-05-24T18:10:00+08:00</published><updated>2021-05-24T18:10:00+08:00</updated><id>http://localhost:4000/2021/05/24/python-notes</id><content type="html" xml:base="http://localhost:4000/2021/05/24/python-notes.html"><![CDATA[<p>[TOC]</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-11-15T17:47:59+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Rookie Hacker</title><subtitle>Cybersecurity</subtitle><author><name>true</name></author><entry><title type="html">MooCakeCTX attack</title><link href="http://localhost:4000/2022/11/07/MooCakeCTX-attack.html" rel="alternate" type="text/html" title="MooCakeCTX attack" /><published>2022-11-07T11:45:00+08:00</published><updated>2022-11-07T11:45:00+08:00</updated><id>http://localhost:4000/2022/11/07/MooCakeCTX-attack</id><content type="html" xml:base="http://localhost:4000/2022/11/07/MooCakeCTX-attack.html"><![CDATA[<p>[TOC]</p>
 
-<h1 id="python基础">python基础</h1>
+<p>thanks by KRlyx &amp; Deft (beosin security team)</p>
 
-<h2 id="pycharm设置">pycharm设置</h2>
+<p>MooCakeCTX合约遭到闪电贷攻击，首位攻击者获得约14万美元，第二位攻击者获利约47万美元，2次攻击手法一致，MooCakeTWT于MooCakeCTX数小时后被攻击。</p>
+
+<h4 id="事件地址信息">事件地址信息</h4>
+
+<p>攻击交易<br />
+https://bscscan.com/tx/0x03d363462519029cf9a544d44046cad0c7e64c5fb1f2adf5dd5438a9a0d2ec8e</p>
+
+<p>攻击者地址<br />
+0x35700c4a7bd65048f01d6675f09d15771c0facd5</p>
+
+<p>攻击合约<br />
+0x71Ac864f9388eBD8e55a3cdBC501D79C3810467C</p>
+
+<p>被攻击合约地址<br />
+0x489afbAED0Ea796712c9A6d366C16CA3876D8184</p>
+
+<h4 id="漏洞分析">漏洞分析</h4>
+<p>本次攻击主要利用了抵押奖励合约中，抵押和奖励没有时间等相关的限制，并且对于调用者的防范不够全面，导致攻击者可以利用闪电贷放大分红收益，获取MooCakeCTX</p>
+
+<h4 id="攻击流程">攻击流程</h4>
+<p>1.在攻击交易0x03d363462我们可以看到2022-11-06 09:30:38 PM +UTC时攻击者利用闪电贷发起攻击,攻击者先使用闪电贷借出BUSD并把自己的钱与借入的钱一起换成vBUSD后再兑换成CAKE币用做抵押的准备资金，因为在StrategySyrup中只能使用cake币作为抵押，所以这里全部换成了cake币。而同时准备CTK币，为了smartchef能够抵押调用成功进行的转账。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/1.png" alt="1" /></p>
+    <p></p>
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/2.png" alt="2" /></p>
+  </li>
+</ul>
+
+<p>2.而在具体的攻击流程函数调用中我们可以看到当，当攻击者调用deposit函数后立马使用call调用了harvest函数，而这里的调用地址是一个攻击合约并且在最后看到此合约已经自毁。我们可以看到在图中harvest函数代码中，对调用地址是否是EOA地址做了判断，但当发起调用在构造函数的情况下iscontract()可以被绕过从而实现了合约调用，这是此次攻击的核心之一。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/3.png" alt="3" /></p>
+    <p></p>
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/4.png" alt="4" /></p>
+  </li>
+</ul>
+
+<p>3.接着就是此次攻击的问题所在，BeefyVault合约中由于奖励计算根据所占的抵押份额计算，其中更新奖励又是按照账户调用harvest函数进行更新，那么在一次更新领取奖励的轮次中，只要所占份额越大，获利越多，所以攻击者用闪电贷放大了收益(而上一次在733天前)，并且绕过了iscontract使用合约调用，值得注意的是这里的depositAll和withdrawAll中与时间没有关系，所以攻击者可以在depoist后立马调用withdrawAll领取奖励。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/5.png" alt="5" /></p>
+    <p></p>
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/6.png" alt="6" /></p>
+  </li>
+</ul>
+
+<p>4.攻击者又执行了两次相同手法的攻击，并归还了闪电贷,获利424 BNB(约14万)离场。并且攻击者因为操作步骤出错WBNB没有转出。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/7.png" alt="7" /></p>
+  </li>
+</ul>]]></content><author><name>true</name></author><category term="blockchain" /><category term="flashloan" /><category term="hacker" /><summary type="html"><![CDATA[[TOC]]]></summary></entry><entry><title type="html">python notes</title><link href="http://localhost:4000/2021/05/24/python-notes.html" rel="alternate" type="text/html" title="python notes" /><published>2021-05-24T18:10:00+08:00</published><updated>2021-05-24T18:10:00+08:00</updated><id>http://localhost:4000/2021/05/24/python-notes</id><content type="html" xml:base="http://localhost:4000/2021/05/24/python-notes.html"><![CDATA[<p>[TOC]</p>
+
+<h2 id="python基础">python基础</h2>
+
+<h3 id="pycharm设置">pycharm设置</h3>
 
 <p>file setting中 editor设置 font 24 code style中设置tab size 4 indent缩进4</p>
 
-<h2 id="文件头">文件头</h2>
+<h3 id="文件头">文件头</h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
 </span></code></pre></div></div>
@@ -22,7 +82,7 @@
 
 <p>windows下没有，忽略</p>
 
-<h2 id="print">print</h2>
+<h3 id="print">print</h3>
 
 <p>在python2.x中使用python3.x的print函数导入<strong>__future__</strong>,包的作用是禁用python2的语句，采用python3的print</p>
 
@@ -31,7 +91,7 @@
 
 <p>其他同理，future具有很多其他的包division/absolute_import</p>
 
-<h2 id="python保留字">python保留字</h2>
+<h3 id="python保留字">python保留字</h3>
 
 <table>
   <thead>
@@ -99,7 +159,7 @@
         item_three
 </code></pre></div></div>
 
-<h2 id="单行注释多行注释">单行注释多行注释</h2>
+<h3 id="单行注释多行注释">单行注释多行注释</h3>
 
 <p>#单行注释</p>
 
@@ -111,11 +171,11 @@
 """
 </code></pre></div></div>
 
-<h2 id="变量赋值">变量赋值</h2>
+<h3 id="变量赋值">变量赋值</h3>
 
 <p>python支持int long float complex</p>
 
-<h3 id="变量赋值切片">变量赋值切片</h3>
+<h4 id="变量赋值切片">变量赋值切片</h4>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="nb">str</span> <span class="c1">#完整
 </span><span class="k">print</span> <span class="nb">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#输出第一个字符串
@@ -125,7 +185,7 @@
 </span><span class="k">print</span> <span class="nb">str</span> <span class="o">+</span> <span class="s">"TEST"</span> <span class="c1">#输出连接字符串
 </span></code></pre></div></div>
 
-<h3 id="元组">元组</h3>
+<h4 id="元组">元组</h4>
 
 <p>tuple,元组无法更新，但是列表是允许更新的</p>
 
@@ -156,12 +216,12 @@
 
 <p>内置函数cmp(tup1,tup2)  计算元素个数len(tuple),max()计算最大值，min()最小值,tuple(seq)转换列表为元组</p>
 
-<h3 id="字典">字典</h3>
+<h4 id="字典">字典</h4>
 
 <p>dict  = {}键值对，成对存在</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dict['one'] = "This is one"
-print(dict['one'])  # 输出键为'one' 的值
+print(dict['one'])  #输出键为'one' 的值
 console This is one
 </code></pre></div></div>
 
@@ -169,31 +229,31 @@ console This is one
 
 <p>print tinydict.keys()  #输出所有键</p>
 
-<p>print tinydict.values()    # 输出所有值</p>
+<p>print tinydict.values()    #输出所有值</p>
 
 <p>dict.update(dict2)  #更新字典</p>
 
 <p>dict.items()  以列表返回可遍历的（键，值）元组数组</p>
 
-<h2 id="运算符">运算符</h2>
+<h3 id="运算符">运算符</h3>
 
 <p>次方 a**b</p>
 
 <p>向下取整 9//2 = 4</p>
 
-<h2 id="条件">条件</h2>
+<h3 id="条件">条件</h3>
 
 <p>if elif eles</p>
 
-<h2 id="循环语句">循环语句</h2>
+<h3 id="循环语句">循环语句</h3>
 
 <p>while    for    while中使用for   break continue 跳出该循环，执行下一次循环, pass语句</p>
 
-<h2 id="更新列表">更新列表</h2>
+<h3 id="更新列表">更新列表</h3>
 
 <p>list.append(‘google’)  #添加元素</p>
 
-<h2 id="日期">日期</h2>
+<h3 id="日期">日期</h3>
 
 <p>import time</p>
 
@@ -216,7 +276,7 @@ console This is one
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>time.sleep()推迟线程
 </code></pre></div></div>
 
-<h2 id="函数">函数</h2>
+<h3 id="函数">函数</h3>
 
 <p>def function( parameters ):</p>
 
@@ -265,7 +325,7 @@ console This is one
 
 <p>sum = lambda arg1,arg2:arg1+arg2</p>
 
-<h2 id="语法糖">语法糖</h2>
+<h3 id="语法糖">语法糖</h3>
 
 <p>就相当于汉语里的成语,用更简练的言语表达较复杂的含义。在得到广泛接受的情况之下，可以提升交流的效率,语法糖就是为了避免coder出现错误并提高效率的语法层面的一种优雅的解决方案。</p>
 
@@ -285,7 +345,7 @@ console This is one
 
 <p>y+=x是y=y+x的语法糖</p>
 
-<h2 id="继承">继承</h2>
+<h3 id="继承">继承</h3>
 <p>Car类是父类，Aodi是子类继承于Car,继承也可以设置其他方法,代码只需做少部分改进,类遵循驼峰命名，方法小写，私有方法加下划线</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -338,7 +398,7 @@ console This is one
 <span class="n">c</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div></div>
 
-<h3 id="超类">超类</h3>
+<h4 id="超类">超类</h4>
 <p>super() 是用来解决多重继承问题的，直接用类名调用父类方法在使用单继承的时候没问题，但是如果使用多继承，会涉及到查找顺序（MRO）、重复调用（钻石继承）等种种问题。</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Aplus(object):
     def test(self):
@@ -352,7 +412,7 @@ t = A()
 t.test()
 </code></pre></div></div>
 
-<h2 id="装饰器">装饰器</h2>
+<h3 id="装饰器">装饰器</h3>
 
 <p>装饰器</p>
 
@@ -388,18 +448,18 @@ t.test()
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AoteMan</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-	<span class="c1"># 利用property装饰器将获取name方法转换为获取对象的属性
+	<span class="c1">## 利用property装饰器将获取name方法转换为获取对象的属性
 </span>    <span class="o">@</span><span class="nb">property</span>
     <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_name</span>
-    <span class="c1"># 利用property装饰器将设置name方法转换为获取对象的属性
+    <span class="c1">## 利用property装饰器将设置name方法转换为获取对象的属性
 </span>    <span class="o">@</span><span class="n">get_name</span><span class="p">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
         
 <span class="n">p</span> <span class="o">=</span> <span class="n">AoteMan</span><span class="p">(</span><span class="s">'迪迦'</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_name</span><span class="p">)</span>   <span class="c1"># 原 p.get_name()  , 现 p.get_name，调用属性
-</span><span class="n">p</span><span class="p">.</span><span class="n">set_name</span> <span class="o">=</span> <span class="s">'泰罗'</span> <span class="c1"># 原 p.set_name('泰罗')  ,现 p.set_name = '泰罗'
+<span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_name</span><span class="p">)</span>   <span class="c1">## 原 p.get_name()  , 现 p.get_name，调用属性
+</span><span class="n">p</span><span class="p">.</span><span class="n">set_name</span> <span class="o">=</span> <span class="s">'泰罗'</span> <span class="c1">## 原 p.set_name('泰罗')  ,现 p.set_name = '泰罗'
 </span><span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_name</span><span class="p">)</span>
 </code></pre></div></div>
 
@@ -425,9 +485,9 @@ t.test()
 <span class="mi">123</span>
 </code></pre></div></div>
 
-<h2 id="开包闭包">开包闭包</h2>
+<h3 id="开包闭包">开包闭包</h3>
 
-<p>##if else写法</p>
+<p>if else写法</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (strategy.equals("fast")) {
   // 快速执行
@@ -475,7 +535,7 @@ class SlowStrategy implements Strategy {
 }
 </code></pre></div></div>
 
-<h3 id="数组">数组</h3>
+<h4 id="数组">数组</h4>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int getDays(int month){
     if (month == 1)  return 31;
     if (month == 2)  return 29;
@@ -498,7 +558,7 @@ int getDays(int month){
 }
 </code></pre></div></div>
 
-<h3 id="上下文管理器">上下文管理器</h3>
+<h4 id="上下文管理器">上下文管理器</h4>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'test.txt'</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 	<span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>

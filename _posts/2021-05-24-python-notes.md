@@ -10,13 +10,13 @@ subtitle: 'python language basics by yako33!'
 
 [TOC]
 
-#  python基础
+##  python基础
 
-##  pycharm设置
+###  pycharm设置
 
 file setting中 editor设置 font 24 code style中设置tab size 4 indent缩进4
 
-## 文件头
+### 文件头
 
 ```python
 #!/usr/bin/python
@@ -34,7 +34,7 @@ linux下系统的用法，告诉操作系统，使用/usr/bin/python下的
 
 windows下没有，忽略
 
-##  print
+###  print
 
 在python2.x中使用python3.x的print函数导入**__future__**,包的作用是禁用python2的语句，采用python3的print
 
@@ -44,7 +44,7 @@ from __future__ import print_function
 
 其他同理，future具有很多其他的包division/absolute_import
 
-##  python保留字
+###  python保留字
 
 | and      | exec    | not    |
 | -------- | ------- | ------ |
@@ -68,7 +68,7 @@ total = item_one + \
         item_three
 ```
 
-##  单行注释多行注释
+###  单行注释多行注释
 
 #单行注释
 
@@ -81,11 +81,11 @@ total = item_one + \
 """
 ```
 
-##  变量赋值
+###  变量赋值
 
 python支持int long float complex
 
-###  变量赋值切片
+####  变量赋值切片
 
 ```python
 print str #完整
@@ -96,7 +96,7 @@ print str*2 #输出字符串两次
 print str + "TEST" #输出连接字符串
 ```
 
-###  元组
+####  元组
 
 tuple,元组无法更新，但是列表是允许更新的
 
@@ -128,13 +128,13 @@ tuple支持索引，L[-2]截断L[1:]
 
 内置函数cmp(tup1,tup2)  计算元素个数len(tuple),max()计算最大值，min()最小值,tuple(seq)转换列表为元组
 
-###  字典
+####  字典
 
 dict  = {}键值对，成对存在
 
 ```
 dict['one'] = "This is one"
-print(dict['one'])  # 输出键为'one' 的值
+print(dict['one'])  #输出键为'one' 的值
 console This is one
 ```
 
@@ -142,33 +142,33 @@ tinydict = {'name': 'runoob','code':6734, 'dept': 'sales'}
 
 print tinydict.keys()  #输出所有键
 
-print tinydict.values()    # 输出所有值
+print tinydict.values()    #输出所有值
 
 dict.update(dict2)  #更新字典
 
 dict.items()  以列表返回可遍历的（键，值）元组数组
 
-## 运算符
+### 运算符
 
 次方 a**b
 
 向下取整 9//2 = 4
 
-## 条件
+### 条件
 
 if elif eles
 
-##  循环语句
+###  循环语句
 
 while    for    while中使用for   break continue 跳出该循环，执行下一次循环, pass语句
 
 
 
-##  更新列表
+###  更新列表
 
 list.append('google')  #添加元素
 
-##  日期
+###  日期
 
 import time
 
@@ -194,7 +194,7 @@ time.sleep()推迟线程
 
 
 
-##  函数
+###  函数
 
 def function( parameters ):
 
@@ -247,7 +247,7 @@ lambda是一个表达式
 
 sum = lambda arg1,arg2:arg1+arg2
 
-## 语法糖
+### 语法糖
 
 就相当于汉语里的成语,用更简练的言语表达较复杂的含义。在得到广泛接受的情况之下，可以提升交流的效率,语法糖就是为了避免coder出现错误并提高效率的语法层面的一种优雅的解决方案。
 
@@ -269,7 +269,7 @@ while (i < 5){
 
 y+=x是y=y+x的语法糖
 
-## 继承
+### 继承
 Car类是父类，Aodi是子类继承于Car,继承也可以设置其他方法,代码只需做少部分改进,类遵循驼峰命名，方法小写，私有方法加下划线
 ```python
 #!/usr/bin/python
@@ -324,7 +324,7 @@ d = Aodi()
 c.run()
 ```
 
-### 超类
+#### 超类
 super() 是用来解决多重继承问题的，直接用类名调用父类方法在使用单继承的时候没问题，但是如果使用多继承，会涉及到查找顺序（MRO）、重复调用（钻石继承）等种种问题。
 ```
 class Aplus(object):
@@ -339,7 +339,7 @@ t = A()
 t.test()
 ```
 
-## 装饰器
+### 装饰器
 
 装饰器
 
@@ -377,18 +377,18 @@ print(p.get_name())
 class AoteMan:
     def __init__(self,name):
         self._name = name
-	# 利用property装饰器将获取name方法转换为获取对象的属性
+	## 利用property装饰器将获取name方法转换为获取对象的属性
     @property
     def get_name(self):
         return self._name
-    # 利用property装饰器将设置name方法转换为获取对象的属性
+    ## 利用property装饰器将设置name方法转换为获取对象的属性
     @get_name.setter
     def set_name(self,name):
         self._name = name
         
 p = AoteMan('迪迦')
-print(p.get_name)   # 原 p.get_name()  , 现 p.get_name，调用属性
-p.set_name = '泰罗' # 原 p.set_name('泰罗')  ,现 p.set_name = '泰罗'
+print(p.get_name)   ## 原 p.get_name()  , 现 p.get_name，调用属性
+p.set_name = '泰罗' ## 原 p.set_name('泰罗')  ,现 p.set_name = '泰罗'
 print(p.get_name)
 ```
 
@@ -416,9 +416,9 @@ is running here 1
 ```
 
 
-## 开包闭包
+### 开包闭包
 
-##if else写法
+if else写法
 
 ```
 if (strategy.equals("fast")) {
@@ -468,7 +468,7 @@ class SlowStrategy implements Strategy {
 }
 ```
 
-### 数组
+#### 数组
 ```
 int getDays(int month){
     if (month == 1)  return 31;
@@ -494,7 +494,7 @@ int getDays(int month){
 ```
 
 
-### 上下文管理器
+#### 上下文管理器
 
 ```python
 with open('test.txt',mode='rb') as f:
