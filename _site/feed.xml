@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-11-15T14:37:28+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Rookie Hacker</title><subtitle>Cybersecurity</subtitle><author><name>true</name></author><entry><title type="html">python notes</title><link href="http://localhost:4000/2021/05/24/python-notes.html" rel="alternate" type="text/html" title="python notes" /><published>2021-05-24T18:10:00+08:00</published><updated>2021-05-24T18:10:00+08:00</updated><id>http://localhost:4000/2021/05/24/python-notes</id><content type="html" xml:base="http://localhost:4000/2021/05/24/python-notes.html"><![CDATA[<p>[TOC]</p>
+
+<h1 id="python基础">python基础</h1>
+
+<h2 id="pycharm设置">pycharm设置</h2>
+
+<p>file setting中 editor设置 font 24 code style中设置tab size 4 indent缩进4</p>
+
+<h2 id="文件头">文件头</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+</span></code></pre></div></div>
+
+<p>linux下系统的用法，告诉操作系统，使用/usr/bin/python下的</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+</span></code></pre></div></div>
+
+<p>这种用法是为了防止操作系统用户没有将 python 装在默认的 /usr/bin 路径里。当系统看到这一行的时候，首先会到 env 设置里查找 python 的安装路径，再调用对应路径下的解释器程序完成操作。</p>
+
+<p>如果没有设置env 这里的python路径就等于是写死了路径</p>
+
+<p>windows下没有，忽略</p>
+
+<h2 id="print">print</h2>
+
+<p>在python2.x中使用python3.x的print函数导入<strong>__future__</strong>,包的作用是禁用python2的语句，采用python3的print</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+</code></pre></div></div>
+
+<p>其他同理，future具有很多其他的包division/absolute_import</p>
+
+<h2 id="python保留字">python保留字</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>and</th>
+      <th>exec</th>
+      <th>not</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>assert</td>
+      <td>finally</td>
+      <td>or</td>
+    </tr>
+    <tr>
+      <td>break</td>
+      <td>for</td>
+      <td>pass</td>
+    </tr>
+    <tr>
+      <td>class</td>
+      <td>from</td>
+      <td>print</td>
+    </tr>
+    <tr>
+      <td>continue</td>
+      <td>global</td>
+      <td>raise</td>
+    </tr>
+    <tr>
+      <td>def</td>
+      <td>if</td>
+      <td>return</td>
+    </tr>
+    <tr>
+      <td>del</td>
+      <td>import</td>
+      <td>try</td>
+    </tr>
+    <tr>
+      <td>elif</td>
+      <td>in</td>
+      <td>while</td>
+    </tr>
+    <tr>
+      <td>else</td>
+      <td>is</td>
+      <td>with</td>
+    </tr>
+    <tr>
+      <td>except</td>
+      <td>lambda</td>
+      <td>yield</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>多行语句</p>
+
+<p>使用  \   来多行</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>total = item_one + \
+        item_two + \
+        item_three
+</code></pre></div></div>
+
+<h2 id="单行注释多行注释">单行注释多行注释</h2>
+
+<p>#单行注释</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'''
+多行注释
+'''
+"""
+多行注释
+"""
+</code></pre></div></div>
+
+<h2 id="变量赋值">变量赋值</h2>
+
+<p>python支持int long float complex</p>
+
+<h3 id="变量赋值切片">变量赋值切片</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span> <span class="nb">str</span> <span class="c1">#完整
+</span><span class="k">print</span> <span class="nb">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#输出第一个字符串
+</span><span class="k">print</span> <span class="nb">str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="c1">#输出字符串第三个到第六个
+</span><span class="k">print</span> <span class="nb">str</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="c1">#输出第三个开始
+</span><span class="k">print</span> <span class="nb">str</span><span class="o">*</span><span class="mi">2</span> <span class="c1">#输出字符串两次
+</span><span class="k">print</span> <span class="nb">str</span> <span class="o">+</span> <span class="s">"TEST"</span> <span class="c1">#输出连接字符串
+</span></code></pre></div></div>
+
+<h3 id="元组">元组</h3>
+
+<p>tuple,元组无法更新，但是列表是允许更新的</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print tuple = ('run','786',678,'jokne',70.2)
+</code></pre></div></div>
+
+<p>元组中只包含一个元素时，需要在元素后面添加逗号来消除歧义</p>
+
+<p>tuple=(50,)</p>
+
+<p>元组可以连接,和复制</p>
+
+<p>tup3=tup1+tup2</p>
+
+<p>tup3=tup1 * 3               tup3=(1,2,3,1,2,3,1,2,3)</p>
+
+<p>元组的方法（元组没有列表中的增、删、改的操作，只有查的操作</p>
+
+<p>tuple.index(obj)  /  tuple.count(obj)</p>
+
+<p>可以使用List转化tuple</p>
+
+<p>tuple[0]即可访问</p>
+
+<p>del tuple即可删除</p>
+
+<p>tuple支持索引，L[-2]截断L[1:]</p>
+
+<p>内置函数cmp(tup1,tup2)  计算元素个数len(tuple),max()计算最大值，min()最小值,tuple(seq)转换列表为元组</p>
+
+<h3 id="字典">字典</h3>
+
+<p>dict  = {}键值对，成对存在</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dict['one'] = "This is one"
+print(dict['one'])  # 输出键为'one' 的值
+console This is one
+</code></pre></div></div>
+
+<p>tinydict = {‘name’: ‘runoob’,’code’:6734, ‘dept’: ‘sales’}</p>
+
+<p>print tinydict.keys()  #输出所有键</p>
+
+<p>print tinydict.values()    # 输出所有值</p>
+
+<p>dict.update(dict2)  #更新字典</p>
+
+<p>dict.items()  以列表返回可遍历的（键，值）元组数组</p>
+
+<h2 id="运算符">运算符</h2>
+
+<p>次方 a**b</p>
+
+<p>向下取整 9//2 = 4</p>
+
+<h2 id="条件">条件</h2>
+
+<p>if elif eles</p>
+
+<h2 id="循环语句">循环语句</h2>
+
+<p>while    for    while中使用for   break continue 跳出该循环，执行下一次循环, pass语句</p>
+
+<h2 id="更新列表">更新列表</h2>
+
+<p>list.append(‘google’)  #添加元素</p>
+
+<h2 id="日期">日期</h2>
+
+<p>import time</p>
+
+<p>time.time()  #值为时间戳</p>
+
+<p>time.localtime(time.time())</p>
+
+<p>格式化成2016-03-20 11:45:39形式</p>
+
+<p>print time.strftime(“%Y-%m-%d %H:%M:%S”, time.localtime())</p>
+
+<p>格式化成Sat Mar 28 22:24:24 2016形式</p>
+
+<p>print time.strftime(“%a %b %d %H:%M:%S %Y”, time.localtime())</p>
+
+<p>将格式字符串转换为时间戳 a = “Sat Mar 28 22:24:24 2016”</p>
+
+<p>print time.mktime(time.strptime(a,”%a %b %d %H:%M:%S %Y”))</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>time.sleep()推迟线程
+</code></pre></div></div>
+
+<h2 id="函数">函数</h2>
+
+<p>def function( parameters ):</p>
+
+<p>​	return []</p>
+
+<p>在 python 中，strings, tuples, 和 numbers 是不可更改的对象，而 list,dict 等则是可以修改的对象。</p>
+
+<p>只能说在传递中，传不可变对象和可变对象</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">change</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">a</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">b</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">change</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="mi">2</span>
+</code></pre></div></div>
+
+<p>局部变量a不能赋值b，传不可变对象的时候，a b指向了同一个int对象</p>
+
+<p>传可变对象list，采用自带更新方法append即可</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">change</span><span class="p">(</span><span class="n">mylist</span><span class="p">):</span>
+    <span class="n">mylist</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span>
+<span class="n">mylist</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">change</span><span class="p">(</span><span class="n">mylist</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>参数</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def printme(str):
+	return
+</code></pre></div></div>
+
+<p>调用函数，需要填入参数</p>
+
+<p>默认参数</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def printme(age=50):
+	return
+</code></pre></div></div>
+
+<p>如果没有传递，则为默认参数</p>
+
+<p>lambda是一个表达式</p>
+
+<p>sum = lambda arg1,arg2:arg1+arg2</p>
+
+<h2 id="语法糖">语法糖</h2>
+
+<p>就相当于汉语里的成语,用更简练的言语表达较复杂的含义。在得到广泛接受的情况之下，可以提升交流的效率,语法糖就是为了避免coder出现错误并提高效率的语法层面的一种优雅的解决方案。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="p">...</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>就是while的语法糖</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">){</span>
+    <span class="p">...</span>
+    <span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>y+=x是y=y+x的语法糖</p>
+
+<h2 id="继承">继承</h2>
+<p>Car类是父类，Aodi是子类继承于Car,继承也可以设置其他方法,代码只需做少部分改进,类遵循驼峰命名，方法小写，私有方法加下划线</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: utf-8 -*-
+</span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"我是车"</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Aodi</span><span class="p">(</span><span class="n">Car</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"奥迪车"</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Bmw</span><span class="p">(</span><span class="n">Car</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"宝马车"</span><span class="p">)</span>
+
+   <span class="k">def</span> <span class="nf">price</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+       <span class="k">print</span><span class="p">(</span><span class="s">"50万"</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Car</span><span class="p">()</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Aodi</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">Bmw</span><span class="p">()</span>
+<span class="n">c</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">d</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">f</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">f</span><span class="p">.</span><span class="n">price</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>派生类，调用初始化Init方法，</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+# -*- coding: utf-8 -*-
+</span><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">"绿色"</span><span class="p">):</span>
+        <span class="n">Car</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"我是</span><span class="si">{</span><span class="n">Car</span><span class="p">.</span><span class="n">color</span><span class="si">}</span><span class="s">的车"</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Aodi</span><span class="p">(</span><span class="n">Car</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"我是奥迪车"</span><span class="p">)</span>
+    
+<span class="n">c</span> <span class="o">=</span> <span class="n">Car</span><span class="p">()</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Aodi</span><span class="p">()</span>
+
+<span class="n">c</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="超类">超类</h3>
+<p>super() 是用来解决多重继承问题的，直接用类名调用父类方法在使用单继承的时候没问题，但是如果使用多继承，会涉及到查找顺序（MRO）、重复调用（钻石继承）等种种问题。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Aplus(object):
+    def test(self):
+        print("A")
+
+class A(Aplus):
+    def test(self):
+        super().test()
+
+t = A()
+t.test()
+</code></pre></div></div>
+
+<h2 id="装饰器">装饰器</h2>
+
+<p>装饰器</p>
+
+<p>我们可以使用@property装饰器来创建<strong>只读属性</strong>，@property装饰器会将<strong>方法</strong>转换为相同名称的<strong>只读属性</strong>,可以与所定义的属性配合使用，这样可以防止属性被修改。</p>
+
+<p>由于python进行属性的定义时，没办法设置私有属性，因此要通过@property的方法来进行设置。这样可以隐藏属性名，让用户进行使用的时候无法随意修改。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#设置class奥特曼
+</span><span class="k">class</span> <span class="nc">AoteMan</span><span class="p">:</span>
+    <span class="c1">#初始化属性
+</span>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="c1">#设置get方法获取属性_name
+</span>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_name</span>
+    
+	<span class="c1">#设置set方法修改_name属性
+</span>    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">AoteMan</span><span class="p">(</span><span class="s">'迪迦'</span><span class="p">)</span>
+<span class="c1">#new对象，传入值，迪迦，走到init初始化
+</span><span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_name</span><span class="p">())</span>
+<span class="c1">#用get方法获取值
+</span><span class="n">p</span><span class="p">.</span><span class="n">set_name</span><span class="p">(</span><span class="s">'泰罗'</span><span class="p">)</span>
+<span class="c1">#set方法更新值
+</span><span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_name</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>用装饰器改变方法为属性</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AoteMan</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+	<span class="c1"># 利用property装饰器将获取name方法转换为获取对象的属性
+</span>    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_name</span>
+    <span class="c1"># 利用property装饰器将设置name方法转换为获取对象的属性
+</span>    <span class="o">@</span><span class="n">get_name</span><span class="p">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        
+<span class="n">p</span> <span class="o">=</span> <span class="n">AoteMan</span><span class="p">(</span><span class="s">'迪迦'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_name</span><span class="p">)</span>   <span class="c1"># 原 p.get_name()  , 现 p.get_name，调用属性
+</span><span class="n">p</span><span class="p">.</span><span class="n">set_name</span> <span class="o">=</span> <span class="s">'泰罗'</span> <span class="c1"># 原 p.set_name('泰罗')  ,现 p.set_name = '泰罗'
+</span><span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">get_name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>装饰器setter</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Test</span><span class="p">():</span>
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'is running here 1'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">title</span>
+    <span class="o">@</span><span class="n">name</span><span class="p">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'is running here 2'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">value</span>
+    
+<span class="n">t</span> <span class="o">=</span> <span class="n">Test</span><span class="p">()</span>
+<span class="n">t</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">'123'</span>
+<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+
+
+<span class="ow">is</span> <span class="n">running</span> <span class="n">here</span> <span class="mi">2</span>
+<span class="ow">is</span> <span class="n">running</span> <span class="n">here</span> <span class="mi">1</span>
+<span class="mi">123</span>
+</code></pre></div></div>
+
+<h2 id="开包闭包">开包闭包</h2>
+
+<p>##if else写法</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (strategy.equals("fast")) {
+  // 快速执行
+} else if (strategy.equals("normal")) {
+  // 正常执行
+} else if (strategy.equals("smooth")) {
+  // 平滑执行
+} else if (strategy.equals("slow")) {
+  // 慢慢执行
+}
+</code></pre></div></div>
+
+<p>多态替换，python中没有interface类，直接使用抽象类和抽象方法重写即可,以<strong>java</strong>为例</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface Strategy {
+  void run() throws Exception;
+}
+
+class FastStrategy implements Strategy {
+    @Override
+    void run() throws Exception {
+        // 快速执行逻辑
+    }
+}
+
+class NormalStrategy implements Strategy {
+    @Override
+    void run() throws Exception {
+        // 正常执行逻辑
+    }
+}
+
+class SmoothStrategy implements Strategy {
+    @Override
+    void run() throws Exception {
+        // 平滑执行逻辑
+    }
+}
+
+class SlowStrategy implements Strategy {
+    @Override
+    void run() throws Exception {
+        // 慢速执行逻辑
+    }
+}
+</code></pre></div></div>
+
+<h3 id="数组">数组</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int getDays(int month){
+    if (month == 1)  return 31;
+    if (month == 2)  return 29;
+    if (month == 3)  return 31;
+    if (month == 4)  return 30;
+    if (month == 5)  return 31;
+    if (month == 6)  return 30;
+    if (month == 7)  return 31;
+    if (month == 8)  return 31;
+    if (month == 9)  return 30;
+    if (month == 10)  return 31;
+    if (month == 11)  return 30;
+    if (month == 12)  return 31;
+}
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int monthDays[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+int getDays(int month){
+    return monthDays[--month];
+}
+</code></pre></div></div>
+
+<h3 id="上下文管理器">上下文管理器</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'test.txt'</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+<p>fopen中，如果不是使用with时，则需要再用完文件后进行关闭，以恢复资源，而如果使用上下文，则在with后运行完毕的代码将自动回收资源，即使异常也会关闭程序，但它，没有try的异常捕获</p>
+
+<p>其原理在于，包含方法<code class="highlighter-rouge">__enter__()</code> 和<code class="highlighter-rouge"> __exit__()</code>，支持该协议对象要实现这两个方法。也就是说，如果是自定义类则需要包含<code class="highlighter-rouge">__init__</code>以及上述2种，假设其中具有run方法</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">MyClass</span><span class="p">(</span><span class="s">'test'</span><span class="p">)</span> <span class="k">as</span> <span class="n">mc</span><span class="p">:</span>
+	<span class="n">mc</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div></div>]]></content><author><name>true</name></author><category term="python" /><category term="base" /><summary type="html"><![CDATA[[TOC]]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/2018/05/17/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-05-17T14:05:21+08:00</published><updated>2018-05-17T14:05:21+08:00</updated><id>http://localhost:4000/2018/05/17/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2018/05/17/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+
+<p>To add new posts, simply add a file in the <code class="highlighter-rouge">_posts</code> directory that follows the convention <code class="highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name>true</name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry><entry><title type="html">Hello Jekyll</title><link href="http://localhost:4000/2017/04/18/hello-jekyll.html" rel="alternate" type="text/html" title="Hello Jekyll" /><published>2017-04-18T00:00:00+08:00</published><updated>2017-04-18T00:00:00+08:00</updated><id>http://localhost:4000/2017/04/18/hello-jekyll</id><content type="html" xml:base="http://localhost:4000/2017/04/18/hello-jekyll.html"><![CDATA[<blockquote>
+  <p>Transform your plain text into static websites and blogs.</p>
+</blockquote>
+
+<h1 id="welcome">Welcome</h1>
+
+<h2 id="welcome-1">Welcome</h2>
+
+<h3 id="welcome-2">Welcome</h3>
+
+<p>This site aims to be a comprehensive guide to Jekyll. We’ll cover topics such as getting your site up and running, creating and managing your content, customizing the way your site works and looks, deploying to various environments, and give you some advice on participating in the future development of Jekyll itself.</p>
+
+<h3 id="so-what-is-jekyll-exactlypermalink">So what is Jekyll, exactly?Permalink</h3>
+
+<p>Jekyll is a simple, blog-aware, static site generator. It takes a template directory containing raw text files in various formats, runs it through a converter (like <a href="https://daringfireball.net/projects/markdown/">Markdown</a>) and our <a href="https://github.com/Shopify/liquid/wiki">Liquid</a> renderer, and spits out a complete, ready-to-publish static website suitable for serving with your favorite web server. Jekyll also happens to be the engine behind GitHub Pages, which means you can use Jekyll to host your project’s page, blog, or website from GitHub’s servers for free.</p>
+
+<h3 id="helpful-hintspermalink">Helpful HintsPermalink</h3>
+
+<p>Throughout this guide there are a number of small-but-handy pieces of information that can make using Jekyll easier, more interesting, and less hazardous. Here’s what to look out for.</p>
+
+<h3 id="video-test">Video Test</h3>
+
+<iframe type="text/html" width="100%" height="385" src="http://www.youtube.com/embed/gfmjMWjn-Xg" frameborder="0"></iframe>]]></content><author><name>Jekyll</name></author><category term="jekyll" /><summary type="html"><![CDATA[Transform your plain text into static websites and blogs.]]></summary></entry></feed>

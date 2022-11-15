@@ -1,7 +1,7 @@
 # Site settings 配置站点
 title: 'Rookie Hacker'
-description: 'Cybersecurity'
-keywords: ''
+description: 'Cyber Security'
+keywords: 'blockchain security,web security,system security...'
 url: 'https://blackyc.github.io/' # your host
 
 # nav 中文字符空格：&emsp;
@@ -17,9 +17,9 @@ author: true
 name: 'yako33'
 NickName: ''
 webtitle: 'Wake up neo'
-bio: 'your awesome bio'
+bio: 'beosin security audit engineer'
 about: true
-aboutyou: 'your introduction'
+aboutyou: 'just a clown'
 portraits: '/assets/profile.jpeg' # your portraits image file path
 
 # SNS
