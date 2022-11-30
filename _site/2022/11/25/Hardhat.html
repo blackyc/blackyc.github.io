@@ -470,7 +470,8 @@ npm install @nomiclabs/hardhat-waffle
 
 <h4 id="hardhat-模拟攻击">hardhat 模拟攻击</h4>
 
-<p>(待更新)</p>
+<p>(待更新)
+目前来看因为学习成本等原因，使用hardhat来完成不太合适，暂时研究foundry</p>
 
 <h4 id="foundry-基本环境">foundry 基本环境</h4>
 
@@ -481,6 +482,218 @@ npm install @nomiclabs/hardhat-waffle
 </code></pre></div></div>
 
 <p>(待更新)</p>
+
+<h4 id="用代币来熟悉foundry基本操作">用代币来熟悉foundry基本操作</h4>
+
+<p><a href="https://cloud.tencent.com/developer/article/2010589">方法来源引用链接</a></p>
+
+<p>创建空模板，这一步可能会因为网络或者各种原因各种报错，只能多次安装或者更新。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge init
+</code></pre></div></div>
+<p>下载OpenZeppelin包并且更新std库</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge install OpenZeppelin/openzeppelin-contracts@v4.5.0
+forge update foundry-rs/forge-std
+</code></pre></div></div>
+
+<p>由于安装多次失败，使用参考文章中的模板进行初始化。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge init --template https://github.com/soliditylabs/forge-erc20-template
+</code></pre></div></div>
+
+<p>关于配置文件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Additional configuration and default values at https://github.com/gakonst/foundry/tree/master/config
+[default]
+
+# Sets the concrete solc version to use
+# This overrides the `auto_detect_solc` / value auto_detect_solc = true
+# 这里是注释了的，可以指定solidity的版本
+# solc_version = '0.8.13'
+
+# 指定配置项目的路径，这里是lib/forge-std和openzeppelin
+remappings = [
+  "ds/=lib/ds-test/src/",
+  "@std=lib/forge-std/src/",
+  "@openzeppelin=lib/openzeppelin-contracts/contracts/",
+]
+
+[ci]
+fuzz_runs = 2_000
+
+# 资料夹
+# src = 'src'
+# 測試檔資料夾
+# test = 'test'
+# Artifact 資料夾
+# out = 'out'
+
+# RPC url。注意如果有提供這個 url，測試會默認你是要用 fork network 執行測試 #eth_rpc_url = 'https://eth-mainnet.alchemyapi.io/v2/API_KEY'
+</code></pre></div></div>
+
+<p>基本代币</p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="mf">0.8</span><span class="p">.</span><span class="mi">13</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="p">{</span><span class="nx">ERC20</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">openzeppelin-contracts/token/ERC20/ERC20.sol</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">MyERC20</span> <span class="nx">is</span> <span class="nx">ERC20</span> <span class="p">{</span>
+    <span class="kd">constructor</span><span class="p">()</span> <span class="nx">ERC20</span><span class="p">(</span><span class="dl">"</span><span class="s2">Name</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">SYM</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>测试合约,根据我写的注释来看具体作用</p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="mf">0.8</span><span class="p">.</span><span class="mi">13</span><span class="p">;</span>
+
+<span class="c1">//导入std的包来输出信息，导入测试用的包, /forge-std/src/test/console.sol</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">console</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">forge-std/console.sol</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">stdStorage</span><span class="p">,</span> <span class="nx">StdStorage</span><span class="p">,</span> <span class="nx">Test</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">forge-std/Test.sol</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">//这2个文件继承了DStest里面有许多使用的函数，创建，断言等等</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">Utils</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">./utils/Utils.sol</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">MyERC20</span><span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">../MyERC20.sol</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">BaseSetup</span> <span class="nx">is</span> <span class="nx">MyERC20</span><span class="p">,</span> <span class="nx">Test</span> <span class="p">{</span>
+    <span class="nx">Utils</span> <span class="nx">internal</span> <span class="nx">utils</span><span class="p">;</span>
+    <span class="nx">address</span> <span class="nx">payable</span><span class="p">[]</span> <span class="nx">internal</span> <span class="nx">users</span><span class="p">;</span>
+
+    <span class="nx">address</span> <span class="nx">internal</span> <span class="nx">alice</span><span class="p">;</span>
+    <span class="nx">address</span> <span class="nx">internal</span> <span class="nx">bob</span><span class="p">;</span>
+    <span class="c1">//Forge中的setUp关键字在每个测试用例运行之前调用的可选函数</span>
+    <span class="c1">//还有其他关键词作为函数命名的前缀，test作为测试用例，testFail等等</span>
+    <span class="kd">function</span> <span class="nx">setUp</span><span class="p">()</span> <span class="kr">public</span> <span class="nx">virtual</span> <span class="p">{</span>
+        <span class="nx">utils</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Utils</span><span class="p">();</span> <span class="c1">//初始化Utils</span>
+        <span class="nx">users</span> <span class="o">=</span> <span class="nx">utils</span><span class="p">.</span><span class="nx">createUsers</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">//调用创建方法可以创建2个账户</span>
+
+        <span class="nx">alice</span> <span class="o">=</span> <span class="nx">users</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="c1">//在vm中加标签，在堆栈跟踪容易识别</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">label</span><span class="p">(</span><span class="nx">alice</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Alice</span><span class="dl">"</span><span class="p">);</span> <span class="c1">//关于VM众多功能的查看 forge-std/src/Vm.sol</span>
+        <span class="nx">bob</span> <span class="o">=</span> <span class="nx">users</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">label</span><span class="p">(</span><span class="nx">bob</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Bob</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">contract</span> <span class="nx">WhenTransferringTokens</span> <span class="nx">is</span> <span class="nx">BaseSetup</span> <span class="p">{</span>
+    <span class="nx">uint256</span> <span class="nx">internal</span> <span class="nx">maxTransferAmount</span> <span class="o">=</span> <span class="mi">12</span><span class="nx">e18</span><span class="p">;</span>
+    <span class="c1">//类似于beforeEach和describe</span>
+    <span class="kd">function</span> <span class="nx">setUp</span><span class="p">()</span> <span class="kr">public</span> <span class="nx">virtual</span> <span class="nx">override</span> <span class="p">{</span>
+        <span class="nx">BaseSetup</span><span class="p">.</span><span class="nx">setUp</span><span class="p">();</span> <span class="c1">//调用BaseSetup初始化账户</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">When transferring tokens</span><span class="dl">"</span><span class="p">);</span><span class="c1">//使用console.log来打印日志信息</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">transferToken</span><span class="p">(</span>
+        <span class="nx">address</span> <span class="k">from</span><span class="p">,</span>
+        <span class="nx">address</span> <span class="nx">to</span><span class="p">,</span>
+        <span class="nx">uint256</span> <span class="nx">transferAmount</span>
+    <span class="p">)</span> <span class="kr">public</span> <span class="nx">returns</span> <span class="p">(</span><span class="nx">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">prank</span><span class="p">(</span><span class="k">from</span><span class="p">);</span> <span class="c1">//prank(address),将所有后续调用的 msg.sender 设置为输入地址</span>
+        <span class="c1">//因为prank修改了调用者，这里使用的this</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">transferAmount</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">contract</span> <span class="nx">WhenAliceHasSufficientFunds</span> <span class="nx">is</span> <span class="nx">WhenTransferringTokens</span> <span class="p">{</span>
+    <span class="nx">using</span> <span class="nx">stdStorage</span> <span class="k">for</span> <span class="nx">StdStorage</span><span class="p">;</span>
+    <span class="nx">uint256</span> <span class="nx">internal</span> <span class="nx">mintAmount</span> <span class="o">=</span> <span class="nx">maxTransferAmount</span><span class="p">;</span>
+    <span class="c1">//before初始化</span>
+    <span class="kd">function</span> <span class="nx">setUp</span><span class="p">()</span> <span class="kr">public</span> <span class="nx">override</span> <span class="p">{</span>
+        <span class="nx">WhenTransferringTokens</span><span class="p">.</span><span class="nx">setUp</span><span class="p">();</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">When Alice has sufficient funds</span><span class="dl">"</span><span class="p">);</span>
+        <span class="nx">_mint</span><span class="p">(</span><span class="nx">alice</span><span class="p">,</span> <span class="nx">mintAmount</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">itTransfersAmountCorrectly</span><span class="p">(</span>
+        <span class="nx">address</span> <span class="k">from</span><span class="p">,</span>
+        <span class="nx">address</span> <span class="nx">to</span><span class="p">,</span>
+        <span class="nx">uint256</span> <span class="nx">transferAmount</span>
+    <span class="p">)</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">uint256</span> <span class="nx">fromBalanceBefore</span> <span class="o">=</span> <span class="nx">balanceOf</span><span class="p">(</span><span class="k">from</span><span class="p">);</span>
+        <span class="nx">bool</span> <span class="nx">success</span> <span class="o">=</span> <span class="nx">transferToken</span><span class="p">(</span><span class="k">from</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">transferAmount</span><span class="p">);</span>
+        <span class="c1">// src/test/utils，forge-std中也有，断言函数有相等小于大于(eq,le,ge)  assertTrue判断返回值</span>
+        <span class="nx">assertTrue</span><span class="p">(</span><span class="nx">success</span><span class="p">);</span>
+        <span class="nx">assertEqDecimal</span><span class="p">(</span>
+            <span class="nx">balanceOf</span><span class="p">(</span><span class="k">from</span><span class="p">),</span>
+            <span class="nx">fromBalanceBefore</span> <span class="o">-</span> <span class="nx">transferAmount</span><span class="p">,</span>
+            <span class="nx">decimals</span><span class="p">()</span>
+        <span class="p">);</span>
+        <span class="nx">assertEqDecimal</span><span class="p">(</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">to</span><span class="p">),</span> <span class="nx">transferAmount</span><span class="p">,</span> <span class="nx">decimals</span><span class="p">());</span>
+    <span class="p">}</span>
+    <span class="c1">//带参调用</span>
+    <span class="kd">function</span> <span class="nx">testTransferAllTokens</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">itTransfersAmountCorrectly</span><span class="p">(</span><span class="nx">alice</span><span class="p">,</span> <span class="nx">bob</span><span class="p">,</span> <span class="nx">maxTransferAmount</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">testTransferHalfTokens</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">itTransfersAmountCorrectly</span><span class="p">(</span><span class="nx">alice</span><span class="p">,</span> <span class="nx">bob</span><span class="p">,</span> <span class="nx">maxTransferAmount</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">testTransferOneToken</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">itTransfersAmountCorrectly</span><span class="p">(</span><span class="nx">alice</span><span class="p">,</span> <span class="nx">bob</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">testTransferWithFuzzing</span><span class="p">(</span><span class="nx">uint64</span> <span class="nx">transferAmount</span><span class="p">)</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">assume</span><span class="p">(</span><span class="nx">transferAmount</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="nx">itTransfersAmountCorrectly</span><span class="p">(</span>
+            <span class="nx">alice</span><span class="p">,</span>
+            <span class="nx">bob</span><span class="p">,</span>
+            <span class="nx">transferAmount</span> <span class="o">%</span> <span class="nx">maxTransferAmount</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">//签名打包的方式判断，感觉实际上用的很少，这里使用了mockcall模拟调用，如果调用成功会返回ture，使用完之后清空模拟</span>
+    <span class="kd">function</span> <span class="nx">testTransferWithMockedCall</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">prank</span><span class="p">(</span><span class="nx">alice</span><span class="p">);</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">mockCall</span><span class="p">(</span>
+            <span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">),</span>
+            <span class="nx">abi</span><span class="p">.</span><span class="nx">encodeWithSelector</span><span class="p">(</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">transfer</span><span class="p">.</span><span class="nx">selector</span><span class="p">,</span>
+                <span class="nx">bob</span><span class="p">,</span>
+                <span class="nx">maxTransferAmount</span>
+            <span class="p">),</span>
+            <span class="nx">abi</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+        <span class="p">);</span>
+        <span class="nx">bool</span> <span class="nx">success</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">bob</span><span class="p">,</span> <span class="nx">maxTransferAmount</span><span class="p">);</span>
+        <span class="nx">assertTrue</span><span class="p">(</span><span class="o">!</span><span class="nx">success</span><span class="p">);</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">clearMockedCalls</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">//vm.load(地址，byte32数据)，从状态读取数据。</span>
+    <span class="kd">function</span> <span class="nx">testFindMapping</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="nx">uint256</span> <span class="nx">slot</span> <span class="o">=</span> <span class="nx">stdstore</span>
+            <span class="p">.</span><span class="nx">target</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
+            <span class="p">.</span><span class="nx">sig</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">.</span><span class="nx">selector</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">with_key</span><span class="p">(</span><span class="nx">alice</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">find</span><span class="p">();</span>
+        <span class="nx">bytes32</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">vm</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="nx">bytes32</span><span class="p">(</span><span class="nx">slot</span><span class="p">));</span>
+        <span class="nx">assertEqDecimal</span><span class="p">(</span><span class="nx">uint256</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span> <span class="nx">mintAmount</span><span class="p">,</span> <span class="nx">decimals</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>做一个带有输入变量的测试函数，forge 会自动进行模糊测试vm.assume排除值，modulo限制为某个值</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function testTransferFuzzing(uint64 amount) public {
+    vm.assume(amount != 0);
+    itTransfersAmountCorrectly(
+        alice,
+        bob,
+        amount % maxTransferAmount
+    );
+}
+</code></pre></div></div>
+
+<p>依据V数量不同打印不同级别的告警信息。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge test -vvvvv
+</code></pre></div></div>
+<p>2: 打印所有测试的日志
+3: 打印失败的测试的执行堆栈
+4: 打印所有测试的执行堆栈，以及失败测试的 setup 堆栈
+5: 打印所有测试的执行和 setup 堆栈</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221121hardhat/6.png" alt="1" /></p>
+  </li>
+</ul>
+
+<p>其余功能非常多结合漏洞分析一起使用。</p>
 
 <h4 id="foundry-模拟攻击">foundry 模拟攻击</h4>
 
