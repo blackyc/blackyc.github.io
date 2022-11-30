@@ -698,17 +698,25 @@ fuzz_runs = 2_000
 <h4 id="foundry-模拟攻击">foundry 模拟攻击</h4>
 
 <p>需要配置RPC</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpc_endpoints = { mainnet = "https://rpc.ankr.com/eth", optimism = "https://rpc.ankr.com/optimism" , fantom = "https://rpc.ankr.com/fantom", arbitrum = "https://rpc.ankr.com/arbitrum", bsc = "https://rpc.ankr.com/bsc", moonriver = "https://moonriver.public.blastapi.io", gnosis = "https://rpc.ankr.com/gnosis", avax = "https://rpc.ankr.com/avalanche", polygon = "https://rpc.ankr.com/polygon"}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpc_endpoints = { mainnet = "https://rpc.ankr.com/eth", 
+optimism = "https://rpc.ankr.com/optimism" , 
+fantom = "https://rpc.ankr.com/fantom", 
+arbitrum = "https://rpc.ankr.com/arbitrum", 
+bsc = "https://rpc.ankr.com/bsc", 
+moonriver = "https://moonriver.public.blastapi.io", 
+gnosis = "https://rpc.ankr.com/gnosis", 
+avax = "https://rpc.ankr.com/avalanche", 
+polygon = "https://rpc.ankr.com/polygon"
+}
 </code></pre></div></div>
 
 <p>链fork区块状态</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function setUp() public {
-    // the ankr rpc maybe dont work , please use QuickNode 
     cheats.createSelectFork("bsc", 22832427);
 }
 </code></pre></div></div>
 
-<p>使用标准库基本上能够满足使用，测试exp</p>
+<p>测试exp</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge test --contracts ./src/test/MooCAKECTX_exp.sol -vvv
 </code></pre></div></div>
 
