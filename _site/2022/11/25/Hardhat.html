@@ -471,7 +471,7 @@ npm install @nomiclabs/hardhat-waffle
 <h4 id="hardhat-模拟攻击">hardhat 模拟攻击</h4>
 
 <p>(待更新)
-目前来看因为学习成本等原因，使用hardhat来完成不太合适，暂时研究foundry</p>
+目前来看因为学习成本等原因，使用hardhat来完成不太合适，一方面是语言，一方面写起来非常麻烦，暂时研究foundry</p>
 
 <h4 id="foundry-基本环境">foundry 基本环境</h4>
 
@@ -697,6 +697,18 @@ fuzz_runs = 2_000
 
 <h4 id="foundry-模拟攻击">foundry 模拟攻击</h4>
 
+<p>需要配置RPC</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpc_endpoints = { mainnet = "https://rpc.ankr.com/eth", optimism = "https://rpc.ankr.com/optimism" , fantom = "https://rpc.ankr.com/fantom", arbitrum = "https://rpc.ankr.com/arbitrum", bsc = "https://rpc.ankr.com/bsc", moonriver = "https://moonriver.public.blastapi.io", gnosis = "https://rpc.ankr.com/gnosis", avax = "https://rpc.ankr.com/avalanche", polygon = "https://rpc.ankr.com/polygon"}
+</code></pre></div></div>
+
+<p>链fork区块状态</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function setUp() public {
+    // the ankr rpc maybe dont work , please use QuickNode 
+    cheats.createSelectFork("bsc", 22832427);
+}
+</code></pre></div></div>
+
+<p>使用标准库基本上能够满足使用，测试exp</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge test --contracts ./src/test/MooCAKECTX_exp.sol -vvv
 </code></pre></div></div>
 
