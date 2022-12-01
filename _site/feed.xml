@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-11-30T14:41:39+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Rookie Hacker</title><subtitle>Cyber Security</subtitle><author><name>true</name></author><entry><title type="html">hardhat&amp;amp;foundry</title><link href="http://localhost:4000/2022/11/25/Hardhat.html" rel="alternate" type="text/html" title="hardhat&amp;amp;foundry" /><published>2022-11-25T17:16:00+08:00</published><updated>2022-11-25T17:16:00+08:00</updated><id>http://localhost:4000/2022/11/25/Hardhat</id><content type="html" xml:base="http://localhost:4000/2022/11/25/Hardhat.html"><![CDATA[<h3 id="hardhatfoundry自动化合约部署与测试模拟攻击">hardhat&amp;foundry自动化合约部署与测试，模拟攻击</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-12-01T17:45:51+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Rookie Hacker</title><subtitle>Cyber Security</subtitle><author><name>true</name></author><entry><title type="html">hardhat&amp;amp;foundry</title><link href="http://localhost:4000/2022/11/25/Hardhat.html" rel="alternate" type="text/html" title="hardhat&amp;amp;foundry" /><published>2022-11-25T17:16:00+08:00</published><updated>2022-11-25T17:16:00+08:00</updated><id>http://localhost:4000/2022/11/25/Hardhat</id><content type="html" xml:base="http://localhost:4000/2022/11/25/Hardhat.html"><![CDATA[<h3 id="hardhatfoundry自动化合约部署与测试模拟攻击">hardhat&amp;foundry自动化合约部署与测试，模拟攻击</h3>
 
 <p>[TOC]</p>
 
@@ -544,15 +544,17 @@ fuzz_runs = 2_000
 <h4 id="foundry-模拟攻击">foundry 模拟攻击</h4>
 
 <p>需要配置RPC</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpc_endpoints = { mainnet = "https://rpc.ankr.com/eth", 
-optimism = "https://rpc.ankr.com/optimism" , 
-fantom = "https://rpc.ankr.com/fantom", 
-arbitrum = "https://rpc.ankr.com/arbitrum", 
-bsc = "https://rpc.ankr.com/bsc", 
-moonriver = "https://moonriver.public.blastapi.io", 
-gnosis = "https://rpc.ankr.com/gnosis", 
-avax = "https://rpc.ankr.com/avalanche", 
-polygon = "https://rpc.ankr.com/polygon"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpc_endpoints = { 
+    mainnet = "https://rpc.ankr.com/eth", 
+    optimism = "https://rpc.ankr.com/optimism" , 
+    fantom = "https://rpc.ankr.com/fantom", 
+    arbitrum = "https://rpc.ankr.com/arbitrum", 
+    bsc = "https://rpc.ankr.com/bsc", 
+    moonriver = "https://moonriver.public.blastapi.io", 
+    gnosis = "https://rpc.ankr.com/gnosis", 
+    avax = "https://rpc.ankr.com/avalanche", 
+    polygon = "https://rpc.ankr.com/polygon", 
+    eth_goerli="https://rpc.ankr.com/eth_goerli"
 }
 </code></pre></div></div>
 
@@ -562,11 +564,57 @@ polygon = "https://rpc.ankr.com/polygon"
 }
 </code></pre></div></div>
 
-<p>测试exp</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge test --contracts ./src/test/MooCAKECTX_exp.sol -vvv
+<p>示例代码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.10;
+
+import "forge-std/Test.sol";
+import "./interface.sol";
+
+interface Ft {
+    function Flag() external returns(bool);
+}
+
+contract testFoundry is DSTest {
+    //0x71097是固定的修改地址，不能更改。
+    CheatCodes cheats = CheatCodes(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
+    address constant Flag = 0x7067222c38268E25E53Fb00aBe6D652EBd38d213;
+
+    function setUp() public{
+        cheats.createSelectFork("eth_goerli",8053179);
+        console.log("is fork?");
+    }
+
+    function testExploit() public{
+        console.log("***start***");
+        //测试网中部署的测试合约
+        bool suc = Ft(0x7067222c38268E25E53Fb00aBe6D652EBd38d213).Flag();
+        require(suc, "fLAG = false");
+        console.log("***end***");
+    }
+
+}
 </code></pre></div></div>
 
-<p>(待更新)</p>]]></content><author><name>true</name></author><category term="hardhat" /><summary type="html"><![CDATA[hardhat&amp;foundry自动化合约部署与测试，模拟攻击]]></summary></entry><entry><title type="html">BadUsb HID</title><link href="http://localhost:4000/2022/11/17/BadUsb.html" rel="alternate" type="text/html" title="BadUsb HID" /><published>2022-11-17T11:21:00+08:00</published><updated>2022-11-17T11:21:00+08:00</updated><id>http://localhost:4000/2022/11/17/BadUsb</id><content type="html" xml:base="http://localhost:4000/2022/11/17/BadUsb.html"><![CDATA[<p>author: by Anoxia<br />
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221121hardhat/8.png" alt="1" /></p>
+  </li>
+</ul>
+
+<p>测试exp</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge test --contracts ./src/test/MooCAKECTX_exp.sol -vvvvv
+</code></pre></div></div>
+
+<p>(待更新)</p>
+
+<h4 id="tenderly模拟执行">Tenderly模拟执行</h4>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221121hardhat/7.png" alt="1" /></p>
+  </li>
+</ul>]]></content><author><name>true</name></author><category term="hardhat" /><summary type="html"><![CDATA[hardhat&amp;foundry自动化合约部署与测试，模拟攻击]]></summary></entry><entry><title type="html">BadUsb HID</title><link href="http://localhost:4000/2022/11/17/BadUsb.html" rel="alternate" type="text/html" title="BadUsb HID" /><published>2022-11-17T11:21:00+08:00</published><updated>2022-11-17T11:21:00+08:00</updated><id>http://localhost:4000/2022/11/17/BadUsb</id><content type="html" xml:base="http://localhost:4000/2022/11/17/BadUsb.html"><![CDATA[<p>author: by Anoxia<br />
 check: by yako33</p>
 
 <h4 id="hid原理">HID原理：</h4>
@@ -825,7 +873,11 @@ https://bscscan.com/tx/0x03d363462519029cf9a544d44046cad0c7e64c5fb1f2adf5dd5438a
 <li style="list-style-type: none;">
     <p><img src="http://localhost:4000/screenshot/20221107MooCakeCTX/7.png" alt="7" /></p>
   </li>
-</ul>]]></content><author><name>true</name></author><category term="blockchain" /><category term="flashloan" /><category term="hacker" /><summary type="html"><![CDATA[[TOC]]]></summary></entry><entry><title type="html">information-Gathering</title><link href="http://localhost:4000/2021/12/13/Information-Gathering.html" rel="alternate" type="text/html" title="information-Gathering" /><published>2021-12-13T17:16:00+08:00</published><updated>2021-12-13T17:16:00+08:00</updated><id>http://localhost:4000/2021/12/13/Information-Gathering</id><content type="html" xml:base="http://localhost:4000/2021/12/13/Information-Gathering.html"><![CDATA[<p>[TOC]</p>
+</ul>
+
+<h3 id="moocakectx-exp细节解析">MooCakeCTX exp细节解析</h3>
+
+<p>(待更新)</p>]]></content><author><name>true</name></author><category term="blockchain" /><category term="flashloan" /><category term="hacker" /><summary type="html"><![CDATA[[TOC]]]></summary></entry><entry><title type="html">information-Gathering</title><link href="http://localhost:4000/2021/12/13/Information-Gathering.html" rel="alternate" type="text/html" title="information-Gathering" /><published>2021-12-13T17:16:00+08:00</published><updated>2021-12-13T17:16:00+08:00</updated><id>http://localhost:4000/2021/12/13/Information-Gathering</id><content type="html" xml:base="http://localhost:4000/2021/12/13/Information-Gathering.html"><![CDATA[<p>[TOC]</p>
 
 <h2 id="google语法">google语法</h2>
 

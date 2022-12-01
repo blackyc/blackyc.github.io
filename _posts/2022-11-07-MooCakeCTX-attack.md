@@ -72,3 +72,7 @@ https://bscscan.com/tx/0x03d363462519029cf9a544d44046cad0c7e64c5fb1f2adf5dd5438a
 ![7]({{site.url}}/screenshot/20221107MooCakeCTX/7.png)
 </li>
 </ul>
+
+### MooCakeCTX exp细节解析
+
+(待更新)

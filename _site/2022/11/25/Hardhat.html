@@ -698,15 +698,17 @@ fuzz_runs = 2_000
 <h4 id="foundry-模拟攻击">foundry 模拟攻击</h4>
 
 <p>需要配置RPC</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpc_endpoints = { mainnet = "https://rpc.ankr.com/eth", 
-optimism = "https://rpc.ankr.com/optimism" , 
-fantom = "https://rpc.ankr.com/fantom", 
-arbitrum = "https://rpc.ankr.com/arbitrum", 
-bsc = "https://rpc.ankr.com/bsc", 
-moonriver = "https://moonriver.public.blastapi.io", 
-gnosis = "https://rpc.ankr.com/gnosis", 
-avax = "https://rpc.ankr.com/avalanche", 
-polygon = "https://rpc.ankr.com/polygon"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpc_endpoints = { 
+    mainnet = "https://rpc.ankr.com/eth", 
+    optimism = "https://rpc.ankr.com/optimism" , 
+    fantom = "https://rpc.ankr.com/fantom", 
+    arbitrum = "https://rpc.ankr.com/arbitrum", 
+    bsc = "https://rpc.ankr.com/bsc", 
+    moonriver = "https://moonriver.public.blastapi.io", 
+    gnosis = "https://rpc.ankr.com/gnosis", 
+    avax = "https://rpc.ankr.com/avalanche", 
+    polygon = "https://rpc.ankr.com/polygon", 
+    eth_goerli="https://rpc.ankr.com/eth_goerli"
 }
 </code></pre></div></div>
 
@@ -716,11 +718,58 @@ polygon = "https://rpc.ankr.com/polygon"
 }
 </code></pre></div></div>
 
+<p>示例代码</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.10;
+
+import "forge-std/Test.sol";
+import "./interface.sol";
+
+interface Ft {
+    function Flag() external returns(bool);
+}
+
+contract testFoundry is DSTest {
+    //0x71097是固定的修改地址，不能更改。
+    CheatCodes cheats = CheatCodes(0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
+    address constant Flag = 0x7067222c38268E25E53Fb00aBe6D652EBd38d213;
+
+    function setUp() public{
+        cheats.createSelectFork("eth_goerli",8053179);
+        console.log("is fork?");
+    }
+
+    function testExploit() public{
+        console.log("***start***");
+        //测试网中部署的测试合约
+        bool suc = Ft(0x7067222c38268E25E53Fb00aBe6D652EBd38d213).Flag();
+        require(suc, "fLAG = false");
+        console.log("***end***");
+    }
+
+}
+</code></pre></div></div>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221121hardhat/8.png" alt="1" /></p>
+  </li>
+</ul>
+
 <p>测试exp</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge test --contracts ./src/test/MooCAKECTX_exp.sol -vvv
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge test --contracts ./src/test/MooCAKECTX_exp.sol -vvvvv
 </code></pre></div></div>
 
 <p>(待更新)</p>
+
+<h4 id="tenderly模拟执行">Tenderly模拟执行</h4>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221121hardhat/7.png" alt="1" /></p>
+  </li>
+</ul>
+
 
   <!-- 引入share模块 -->
   
