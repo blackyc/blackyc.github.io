@@ -770,6 +770,127 @@ contract testFoundry is DSTest {
   </li>
 </ul>
 
+<h4 id="使用-foundry-编写并学习闪电贷">使用 foundry 编写并学习闪电贷</h4>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: UNLICENSED</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="mf">0.8</span><span class="p">.</span><span class="mi">10</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="dl">"</span><span class="s2">forge-std/Test.sol</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">"</span><span class="s2">./interface.sol</span><span class="dl">"</span><span class="p">;</span>
+
+
+<span class="nx">contract</span> <span class="nx">testFoundry</span> <span class="nx">is</span> <span class="nx">DSTest</span><span class="p">{</span>
+    <span class="nx">CheatCodes</span> <span class="nx">cheats</span> <span class="o">=</span> <span class="nx">CheatCodes</span><span class="p">(</span><span class="mh">0x7109709ECfa91a80626fF3989D68f67F5b1DD12D</span><span class="p">);</span>
+    <span class="nx">IERC20</span> <span class="nx">WBNB</span> <span class="o">=</span> <span class="nx">IERC20</span><span class="p">(</span><span class="mh">0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c</span><span class="p">);</span>
+    <span class="nx">IERC20</span> <span class="nx">BUSD</span> <span class="o">=</span> <span class="nx">IERC20</span><span class="p">(</span><span class="mh">0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56</span><span class="p">);</span>
+    <span class="nx">address</span> <span class="nx">constant</span> <span class="nx">dodo</span> <span class="o">=</span> <span class="mh">0x0fe261aeE0d1C4DFdDee4102E82Dd425999065F4</span><span class="p">;</span>
+
+    <span class="nx">IERC20</span> <span class="nx">WETH</span> <span class="o">=</span> <span class="nx">IERC20</span><span class="p">(</span><span class="mh">0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2</span><span class="p">);</span>
+    <span class="nx">IAaveFlashloan</span> <span class="nx">AaveFlash</span> <span class="o">=</span> <span class="nx">IAaveFlashloan</span><span class="p">(</span><span class="mh">0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9</span><span class="p">);</span><span class="c1">// lendingpool V2</span>
+
+    <span class="nx">IDaiFlashloan</span> <span class="nx">DaiFlash</span> <span class="o">=</span> <span class="nx">IDaiFlashloan</span><span class="p">(</span><span class="mh">0x1EB4CF3A948E7D72A198fe073cCb8C7a948cD853</span><span class="p">);</span>
+
+    <span class="kd">function</span> <span class="nx">setUp</span><span class="p">()</span> <span class="kr">public</span><span class="p">{</span>
+        <span class="nx">cheats</span><span class="p">.</span><span class="nx">label</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="nx">dodo</span><span class="p">),</span> <span class="dl">"</span><span class="s2">DoDo</span><span class="dl">"</span><span class="p">);</span>
+        <span class="c1">//cheats.createSelectFork("bsc", 20245522);</span>
+        <span class="nx">cheats</span><span class="p">.</span><span class="nx">label</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="nx">AaveFlash</span><span class="p">),</span> <span class="dl">"</span><span class="s2">AaveFlash</span><span class="dl">"</span><span class="p">);</span>
+        <span class="c1">//cheats.createSelectFork("mainnet", 14636844);</span>
+        <span class="nx">cheats</span><span class="p">.</span><span class="nx">createSelectFork</span><span class="p">(</span><span class="dl">"</span><span class="s2">mainnet</span><span class="dl">"</span><span class="p">,</span> <span class="mi">16117526</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">fork eth...</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">testExploit</span><span class="p">()</span> <span class="kr">public</span><span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">start</span><span class="dl">"</span><span class="p">);</span>
+        <span class="c1">// //fork bsc</span>
+        <span class="c1">// //DODO一个种类的池只支持 _BASE_TOKEN_,_QUOTE_TOKEN_由owner init设置，不收取手续费，并且同时借2个币，可以只偿还其中一种</span>
+        <span class="c1">// DVM(dodo).flashLoan(5 * 1e18, 400_000 * 1e18, address(this), new bytes(1));</span>
+        
+        <span class="c1">//fork eth </span>
+        <span class="c1">//AAVE闪电贷，种类，数量，Mode是模式0 手续费是0.09%,如果Modes的模式选择 1,2(不立即偿还会有债务，1稳定模式，2可变模式)</span>
+        <span class="c1">//address(WBNB).call{value: 2 ether}(""); foundry请求资产 </span>
+        <span class="nx">address</span><span class="p">(</span><span class="nx">WETH</span><span class="p">).</span><span class="nx">call</span><span class="p">{</span><span class="nl">value</span><span class="p">:</span> <span class="mi">1</span> <span class="nx">ether</span><span class="p">}(</span><span class="dl">""</span><span class="p">);</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance before exploit WETH</span><span class="dl">"</span><span class="p">,</span><span class="nx">WETH</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+        <span class="nx">address</span><span class="p">[]</span> <span class="nx">memory</span> <span class="nx">assets</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">address</span><span class="p">[](</span><span class="mi">1</span><span class="p">);</span>
+        <span class="nx">assets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">address</span><span class="p">(</span><span class="nx">WETH</span><span class="p">);</span>
+        <span class="nx">uint256</span><span class="p">[]</span> <span class="nx">memory</span> <span class="nx">amounts</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">uint256</span><span class="p">[](</span><span class="mi">1</span><span class="p">);</span>
+        <span class="nx">amounts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">;</span>
+        <span class="nx">uint256</span><span class="p">[]</span> <span class="nx">memory</span> <span class="nx">modes</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">uint</span><span class="p">[](</span><span class="mi">1</span><span class="p">);</span>
+        <span class="nx">modes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Aave FlashLoan 1 WETH</span><span class="dl">"</span><span class="p">);</span>
+        <span class="nx">AaveFlash</span><span class="p">.</span><span class="nx">flashLoan</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="nx">assets</span><span class="p">,</span> <span class="nx">amounts</span><span class="p">,</span> <span class="nx">modes</span><span class="p">,</span> <span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="dl">""</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance final exploit WETH</span><span class="dl">"</span><span class="p">,</span><span class="nx">WETH</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">end</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">//DoDo的回调</span>
+    <span class="kd">function</span> <span class="nx">DPPFlashLoanCall</span><span class="p">(</span><span class="nx">address</span> <span class="nx">sender</span><span class="p">,</span> <span class="nx">uint256</span> <span class="nx">baseAmount</span><span class="p">,</span> <span class="nx">uint256</span> <span class="nx">quoteAmount</span><span class="p">,</span> <span class="nx">bytes</span> <span class="nx">calldata</span> <span class="nx">data</span><span class="p">)</span> <span class="nx">external</span><span class="p">{</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance after exploit BUSD</span><span class="dl">"</span><span class="p">,</span><span class="nx">BUSD</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance after exploit WBNB</span><span class="dl">"</span><span class="p">,</span><span class="nx">WBNB</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+        <span class="c1">//call函数例子</span>
+        <span class="c1">//address(0x96bF2E6CC029363B57Ffa5984b943f825D333614).call(abi.encode(bytes4(0x8a809095)));</span>
+        <span class="nx">BUSD</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">dodo</span><span class="p">,</span> <span class="mi">400</span><span class="nx">_000</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">);</span>
+        <span class="nx">WBNB</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">dodo</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">);</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance after exploit BUSD</span><span class="dl">"</span><span class="p">,</span><span class="nx">BUSD</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance after exploit WBNB</span><span class="dl">"</span><span class="p">,</span><span class="nx">WBNB</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">//AAVE的回调</span>
+    <span class="kd">function</span> <span class="nx">executeOperation</span><span class="p">(</span>
+        <span class="nx">address</span><span class="p">[]</span> <span class="nx">calldata</span> <span class="nx">assets</span><span class="p">,</span>
+        <span class="nx">uint256</span><span class="p">[]</span> <span class="nx">calldata</span> <span class="nx">amounts</span><span class="p">,</span>
+        <span class="nx">uint256</span><span class="p">[]</span> <span class="nx">calldata</span> <span class="nx">premiums</span><span class="p">,</span>
+        <span class="nx">address</span> <span class="nx">initiator</span><span class="p">,</span>
+        <span class="nx">bytes</span> <span class="nx">calldata</span> <span class="nx">params</span>
+    <span class="p">)</span> <span class="nx">external</span> <span class="nx">payable</span> <span class="nx">returns</span> <span class="p">(</span><span class="nx">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//emit log_named_decimal_uint("balance after exploit",WBNB.balanceOf(address(this)),18);</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance after exploit WETH</span><span class="dl">"</span><span class="p">,</span><span class="nx">WETH</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+        <span class="nx">WETH</span><span class="p">.</span><span class="nx">approve</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="nx">AaveFlash</span><span class="p">),</span> <span class="nx">type</span><span class="p">(</span><span class="nx">uint</span><span class="p">).</span><span class="nx">max</span><span class="p">);</span>
+        <span class="c1">//WETH.transfer(address(AaveFlash), 1.0009 * 1e18); //授权自动收回,归还手续费</span>
+        <span class="nx">emit</span> <span class="nx">log_named_decimal_uint</span><span class="p">(</span><span class="dl">"</span><span class="s2">balance after exploit WETH</span><span class="dl">"</span><span class="p">,</span><span class="nx">WETH</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)),</span><span class="mi">18</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Repay Aave FlashLoan</span><span class="dl">"</span><span class="p">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">receive</span><span class="p">()</span> <span class="nx">payable</span> <span class="nx">external</span><span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="foundry一些补充">foundry一些补充</h4>
+
+<p>forge - 建立编译测试本地智能合约
+cast - 使用已部署的智能合约执行链上交易
+Anvil - 一个用于开发目的的本地 TestNet 节点，可以分叉预先存在的网络
+(直接运行命令行 anvil开启本地节点 anvil –fork-url https://rpc.ankr.com/bsc)</p>
+
+<p>部署合约例子：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge create --rpc-url https://mainnet.infura.io --private-key abc123456789 src/MyContract.sol:MyContract --constructor-args "Hello Foundry" "Arg2"
+</code></pre></div></div>
+
+<p>本地合约的测试方法一？
+直接继承foundry Test库，在setup中fork</p>
+
+<p>remix的测试方法？
+anvil开启后使用foundry插件</p>
+
+<p>如何导入openzeppelin?</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forge install OpenZeppelin/openzeppelin-contracts --no-commit
+</code></pre></div></div>
+<p>可能会安装失败。
+本地配置，下载好openzep包之后重新配置remappings例如</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib']
+remappings = ['forge-std/=lib/forge-std/src/','@openzeppelin/=lib/openzeppelin-contracts/']
+</code></pre></div></div>
+
+<p>接下来在remix中选择对应的选项即可</p>
+
+<ul>
+<li style="list-style-type: none;">
+    <p><img src="http://localhost:4000/screenshot/20221121hardhat/9.png" alt="1" /></p>
+  </li>
+</ul>
 
   <!-- 引入share模块 -->
   
@@ -865,7 +986,7 @@ contract testFoundry is DSTest {
     2018
     -
   
-  2022
+  2023
   <br>
   Powered by <a href="https://www.jekyll.com.cn/">Jekyll</a> | <a href="https://github.com/xukimseven/HardCandy-Jekyll">HardCandy-Jekyll</a></span>
 </footer>

